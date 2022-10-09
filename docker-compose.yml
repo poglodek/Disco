@@ -1,0 +1,78 @@
+version: "3.8"
+
+services: 
+  mongo:
+    image: mongo
+    container_name: mongo
+    ports:
+      - 27017:27017
+    networks:
+      - disco
+
+  rabbitmq:
+    image: rabbitmq:management
+    container_name: rabbitmq
+    ports: 
+      - 5672:5672
+      - 15672:15672
+    hostname: rabbitmq
+    networks:
+      - disco
+
+  consul:
+    image: consul
+    container_name: consul
+    restart: unless-stopped
+    networks:
+      - disco
+    ports:
+      - 8500:8500
+
+  fabio:
+    image: fabiolb/fabio
+    container_name: fabio
+    restart: unless-stopped
+    environment:
+    - FABIO_REGISTRY_CONSUL_ADDR=consul:8500
+    networks:
+      - disco
+    ports:
+    - 9998:9998
+    - 9999:9999
+
+  vault:
+    image: vault
+    container_name: vault
+    restart: unless-stopped
+    environment:
+      - VAULT_ADDR=http://127.0.0.1:8200
+      - VAULT_DEV_ROOT_TOKEN_ID=secret
+    cap_add:
+      - IPC_LOCK
+    networks:
+      - disco
+    ports:
+      - 8200:8200
+
+  redis:
+    image: redis
+    container_name: redis
+    restart: unless-stopped
+    networks:
+      - disco
+    ports:
+      - 6379:6379
+    volumes: 
+      - redis:/data
+
+
+
+networks:
+  disco:
+    name: disco-network
+
+volumes: 
+  mongo:
+    driver: local
+  redis:
+    driver: local

@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Folder Include="Consul" />
+      <Folder Include="Fabio" />
+      <Folder Include="Logger" />
+      <Folder Include="Mongo" />
+      <Folder Include="Rabbit" />
+      <Folder Include="Redis" />
+      <Folder Include="Vault" />
+    </ItemGroup>
+
+</Project>
