@@ -6,4 +6,8 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Disco.Shared\Disco.Shared.csproj" />
+    </ItemGroup>
+
 </Project>

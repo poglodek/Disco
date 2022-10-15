@@ -2,7 +2,7 @@ namespace Disco.Service.Users.Core.Exceptions;
 
 public class InvalidUserPasswordException : DomainException
 {
-    public InvalidUserPasswordException(string password) : base($"Invalid Password: {password}")
+    public InvalidUserPasswordException(string password) : base($"Invalid PasswordHash: {password}")
     {
     }
 

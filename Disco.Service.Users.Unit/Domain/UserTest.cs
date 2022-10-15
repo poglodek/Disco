@@ -13,7 +13,7 @@ public class UserTest
     private User Act(AggregateId id, string email, string password, bool verified, DateTime createdDate,
         bool isDeleted = false)
     {
-        return User.Create(id, email, password, verified, createdDate, isDeleted);
+        return User.Create(id, email, verified, createdDate, isDeleted);
     }
 
 
@@ -28,7 +28,6 @@ public class UserTest
         user.Id.Value.ShouldNotBe(Guid.Empty);
         user.Verified.ShouldBeFalse();
         user.Email.ShouldBe("test@email.com");
-        user.Password.ShouldBe("secretP4ssword");
         user.CreatedDate.ShouldBe(dt);
 
         var @event = user.Events.Single();
@@ -94,9 +93,7 @@ public class UserTest
         var exception = Record.Exception(() => Act(id, "test@email.com",
             "password99password99password99password99password99222!", false, DateTime.Now));
 
-        exception.ShouldNotBeNull();
-        exception.ShouldBeOfType<InvalidUserPasswordException>();
-        ((InvalidUserPasswordException) exception).Code.ShouldBe("invalid_user_password");
+        exception.ShouldBeNull();
     }
 
     [Fact]
@@ -106,9 +103,8 @@ public class UserTest
 
         var exception = Record.Exception(() => Act(id, "test@email.com", "pass", false, DateTime.Now));
 
-        exception.ShouldNotBeNull();
-        exception.ShouldBeOfType<InvalidUserPasswordException>();
-        ((InvalidUserPasswordException) exception).Code.ShouldBe("invalid_user_password");
+        exception.ShouldBeNull();
+        
     }
 
     [Fact]
@@ -189,8 +185,59 @@ public class UserTest
         ((UserAlreadyVerifiedException) ex).Code.ShouldBe("user_already_verified");
     }
 
+    [Fact]
+    public void User_SetPassword_ValidHashAndPassword_ShouldNotThrowAnException()
+    {
+        var user = ReturnNewUser();
+
+        var password = "Super6Fancy9Pa55w0rd!>";
+        var passwordHash = "AQAAAAEAACcQAAAAEH7stu/BhwMIwsRL3vW+6iFlCXW5LqU4cYJl5evsjf8QtAk6IVtMpcV2EChfcmKVUA==";
+        
+        var ex = Record.Exception(()=> user.SetNewPasswordHash(passwordHash,password));
+        
+        ex.ShouldBeNull();
+    }
+    [Fact]
+    public void User_SetPassword_ValidHash_ShouldNotThrowAnException()
+    {
+        var user = ReturnNewUser();
+        
+        var passwordHash = "AQAAAAEAACcQAAAAEH7stu/BhwMIwsRL3vW+6iFlCXW5LqU4cYJl5evsjf8QtAk6IVtMpcV2EChfcmKVUA==";
+        
+        var ex = Record.Exception(()=> user.SetNewPasswordHash(passwordHash));
+        
+        ex.ShouldBeNull();
+    }
+    [Fact]
+    public void User_SetPassword_NullHash_ShouldNotThrowAnException()
+    {
+        var user = ReturnNewUser();
+
+        string? passwordHash = null;
+        
+        var ex = Record.Exception(()=> user.SetNewPasswordHash(passwordHash));
+        
+        ex.ShouldNotBeNull();
+        ex.ShouldBeOfType<InvalidUserPasswordException>();
+        ((InvalidUserPasswordException) ex).Code.ShouldBe("invalid_user_password");
+    }
+    [Fact]
+    public void User_SetPassword_InvalidHash_ShouldNotThrowAnException()
+    {
+        var user = ReturnNewUser();
+
+        string? passwordHash = "null";
+        
+        var ex = Record.Exception(()=> user.SetNewPasswordHash(passwordHash));
+        
+        ex.ShouldNotBeNull();
+        ex.ShouldBeOfType<InvalidUserPasswordException>();
+        ((InvalidUserPasswordException) ex).Code.ShouldBe("invalid_user_password");
+    }
+    
+    
     private User ReturnNewUser()
     {
-        return new User(new AggregateId(), "test@email.com", "secretP4ssword", false, DateTime.Now);
+        return new User(new AggregateId(), "test@email.com",  false, DateTime.Now);
     }
 }

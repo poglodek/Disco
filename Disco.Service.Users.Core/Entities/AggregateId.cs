@@ -1,4 +1,5 @@
 using Disco.Service.Users.Core.Exceptions;
+using Disco.Shared.Mongo;
 
 namespace Disco.Service.Users.Core.Entities;
 
@@ -37,4 +38,6 @@ public class AggregateId : IEquatable<AggregateId>
     {
         return Value.GetHashCode();
     }
+
+    
 }
