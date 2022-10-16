@@ -10,6 +10,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services
+    .AddAuthorization()
     .AddApplication()
     .AddInfrastructure(builder.Configuration);
 
@@ -26,14 +27,17 @@ app.UseHttpsRedirection();
 
 MapEndpoints(app);
 
+app.UseInfrastructure();
+
 app.UseAuthorization();
 
 app.MapControllers();
 
-app.Run();
+await app.RunAsync();
 
 
 void MapEndpoints(WebApplication webApplication)
 {
     webApplication.MapPost("AddUser", async (AddUser request, IMediator mediator) => { await mediator.Send(request); });
+    webApplication.MapPut("VerifyUser", async (VerifyUser request, IMediator mediator) => { await mediator.Send(request); });
 }

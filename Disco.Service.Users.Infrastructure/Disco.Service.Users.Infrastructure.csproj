@@ -8,10 +8,13 @@
 
     <ItemGroup>
       <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
+      <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
       <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
+      <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Disco.Service.Users.Application\Disco.Service.Users.Application.csproj" />
       <ProjectReference Include="..\Disco.Service.Users.Core\Disco.Service.Users.Core.csproj" />
       <ProjectReference Include="..\Disco.Shared\Disco.Shared.csproj" />
     </ItemGroup>

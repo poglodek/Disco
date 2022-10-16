@@ -1,8 +1,10 @@
 using Disco.Service.Users.Application.Exceptions;
 using Disco.Service.Users.Core.Entities;
-using Disco.Service.Users.Infrastructure.Mongo.Repositories;
+using Disco.Service.Users.Core.Repositories;
+using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using ValidationException = Disco.Service.Users.Application.Exceptions.ValidationException;
 
 namespace Disco.Service.Users.Application.Commands.Handlers;
 
@@ -10,21 +12,30 @@ public class AddUserHandler : IRequestHandler<AddUser,Unit>
 {
     private readonly IUserRepository _userRepository;
     private readonly IPasswordHasher<User> _hasher;
+    private readonly IValidator<AddUser> _validator;
 
-    public AddUserHandler(IUserRepository userRepository, IPasswordHasher<User> hasher)
+    public AddUserHandler(IUserRepository userRepository, IPasswordHasher<User> hasher, IValidator<AddUser> validator)
     {
         _userRepository = userRepository;
         _hasher = hasher;
+        _validator = validator;
     }
     
     public async Task<Unit> Handle(AddUser request, CancellationToken cancellationToken)
     {
-        if (await _userRepository.ExistsAsync(x => x.Email.Equals(request.Email)))
+        var validationResult = await _validator.ValidateAsync(request, cancellationToken);
+
+        if (!validationResult.IsValid)
+        {
+            throw new ValidationException(request, validationResult.Errors);
+        }
+        
+        if (await _userRepository.ExistsByEmailAsync(request.Email))
         {
             throw new UserEmailExistException(request.Email);
         }
-
-        var user =  new User(new AggregateId(), request.Email, false, DateTime.Now);
+        
+        var user =  User.Create(new AggregateId(), request.Email, false, DateTime.Now);
 
         var hash = _hasher.HashPassword(user, request.Password);
         

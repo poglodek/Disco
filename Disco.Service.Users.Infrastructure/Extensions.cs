@@ -1,7 +1,10 @@
 using Disco.Service.Users.Core.Entities;
+using Disco.Service.Users.Core.Repositories;
+using Disco.Service.Users.Infrastructure.Middleware;
 using Disco.Service.Users.Infrastructure.Mongo.Documents;
 using Disco.Service.Users.Infrastructure.Mongo.Repositories;
 using Disco.Shared.Mongo;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -13,5 +16,10 @@ public static class Extensions
         => serviceCollection
             .AddMongo<UserDocument,Guid>(configuration)
             .AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies())
-            .AddSingleton<IUserRepository,UserRepository>();
+            .AddSingleton<IUserRepository,UserRepository>()
+            .AddScoped<CustomMiddleware>();
+    
+    public static IApplicationBuilder UseInfrastructure(this IApplicationBuilder app)
+        => app
+            .UseMiddleware<CustomMiddleware>();
 }

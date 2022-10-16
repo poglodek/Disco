@@ -69,6 +69,7 @@ public sealed class User : AggregateRoot
 
         Verified = true;
         Version++;
+        
         AddEvent(new UserVerified(this));
     }
     
