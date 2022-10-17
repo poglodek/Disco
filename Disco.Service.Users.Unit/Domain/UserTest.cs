@@ -10,10 +10,10 @@ namespace Disco.Service.Users.Unit.Domain;
 
 public class UserTest
 {
-    private User Act(AggregateId id, string email, string password, bool verified, DateTime createdDate,
+    private User Act(AggregateId id, string email, string password, string nick,bool verified, DateTime createdDate,
         bool isDeleted = false)
     {
-        return User.Create(id, email, verified, createdDate, isDeleted);
+        return User.Create(id, email, nick,verified, createdDate, isDeleted);
     }
 
 
@@ -22,13 +22,14 @@ public class UserTest
     {
         var id = new AggregateId();
         var dt = DateTime.Now;
-        var user = Act(id, "test@email.com", "secretP4ssword", false, dt);
+        var user = Act(id, "test@email.com", "secretP4ssword", "Paul",false, dt);
 
         user.ShouldNotBeNull();
         user.Id.Value.ShouldNotBe(Guid.Empty);
         user.Verified.ShouldBeFalse();
         user.Email.ShouldBe("test@email.com");
         user.CreatedDate.ShouldBe(dt);
+        user.Nick.ShouldBe("Paul");
 
         var @event = user.Events.Single();
         @event.ShouldBeOfType<UserCreated>();
@@ -36,11 +37,34 @@ public class UserTest
     }
 
     [Fact]
+    public void SetUserPasswordHash_WithValidPassword()
+    {
+        var hash = "AAAAAAAAAAAAAAADSA12sadasd214dsaf";
+        var user = ReturnNewUser();
+        user.SetNewPasswordHash(hash);
+        
+        user.PasswordHash.ShouldBe(hash);
+    }
+
+    [Theory]
+    [InlineData("xdddd")]
+    [InlineData("12345678900987654321@super.duper.emial.com.pl.org")]
+    [InlineData("google.test.mail.com")]
+    public void SetUserEmail_WithInValid_ShouldThrowAnException(string mail)
+    {
+        var ex =  Record.Exception(() => ReturnNewUser(mail));
+        ex.ShouldNotBeNull();
+        ex.ShouldBeOfType<InvalidUserEmailException>();
+        ((InvalidUserEmailException) ex).Code.ShouldBe("invalid_user_email");
+    }
+    
+    
+    [Fact]
     public void Clearing_Events_AfterUserCreatedEvent()
     {
         var id = new AggregateId();
         var dt = DateTime.Now;
-        var user = Act(id, "test@email.com", "secretP4ssword", false, dt);
+        var user = Act(id, "test@email.com", "secretP4ssword", "Paul",false, dt);
 
         user.Events.Count().ShouldBe(1);
         user.ClearEvents();
@@ -52,7 +76,7 @@ public class UserTest
     {
         var id = new AggregateId();
 
-        var exception = Record.Exception(() => Act(id, "testemail.com", "secretP4ssword", false, DateTime.Now));
+        var exception = Record.Exception(() => Act(id, "testemail.com", "secretP4ssword", "Paul",false, DateTime.Now));
 
         exception.ShouldNotBeNull();
         exception.ShouldBeOfType<InvalidUserEmailException>();
@@ -64,7 +88,7 @@ public class UserTest
     {
         var id = new AggregateId();
 
-        var exception = Record.Exception(() => Act(id, "2@a.pl", "secretP4ssword", false, DateTime.Now));
+        var exception = Record.Exception(() => Act(id, "2@a.pl", "secretP4ssword", "Paul",false, DateTime.Now));
 
         exception.ShouldNotBeNull();
         exception.ShouldBeOfType<InvalidUserEmailException>();
@@ -77,7 +101,7 @@ public class UserTest
         var id = new AggregateId();
 
         var exception = Record.Exception(() => Act(id,
-            "veryFancyLongAndSuperEmail@SuperHostNameWith.edu.com.pl.org.gov.ing", "secretP4ssword", false,
+            "veryFancyLongAndSuperEmail@SuperHostNameWith.edu.com.pl.org.gov.ing", "secretP4ssword", "Paul",false,
             DateTime.Now));
 
         exception.ShouldNotBeNull();
@@ -91,7 +115,7 @@ public class UserTest
         var id = new AggregateId();
 
         var exception = Record.Exception(() => Act(id, "test@email.com",
-            "password99password99password99password99password99222!", false, DateTime.Now));
+            "password99password99password99password99password99222!", "Paul",false, DateTime.Now));
 
         exception.ShouldBeNull();
     }
@@ -101,7 +125,7 @@ public class UserTest
     {
         var id = new AggregateId();
 
-        var exception = Record.Exception(() => Act(id, "test@email.com", "pass", false, DateTime.Now));
+        var exception = Record.Exception(() => Act(id, "test@email.com", "pass", "Paul",false, DateTime.Now));
 
         exception.ShouldBeNull();
         
@@ -236,8 +260,8 @@ public class UserTest
     }
     
     
-    private User ReturnNewUser()
+    private User ReturnNewUser(string email = "test@email.com")
     {
-        return new User(new AggregateId(), "test@email.com",  false, DateTime.Now);
+        return new User(new AggregateId(),email ,  "Paul",false, DateTime.Now);
     }
 }

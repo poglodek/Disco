@@ -10,7 +10,7 @@ public class InfrastructureMapper : Profile
     {
         CreateMap<UserDocument, User>()
             .ConstructUsing(x =>
-                new User(new AggregateId(x.Id), x.Email, x.Verified, x.CreatedDate, x.IsDeleted));
+                new User(new AggregateId(x.Id), x.Email, x.Nick,x.Verified, x.CreatedDate, x.IsDeleted));
 
         CreateMap<User, UserDocument>()
             .ForMember(x => x.Id, opt => opt.MapFrom(x => x.Id.Value));

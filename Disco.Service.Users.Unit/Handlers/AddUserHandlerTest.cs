@@ -30,7 +30,8 @@ public class AddUserHandlerTest
         var request = new AddUser
         {
             Email = "test@mail.com",
-            Password = "password12345"
+            Password = "password12345",
+            Nick = "Paul"
         };
 
         _hasher.HashPassword(Arg.Any<User>(), Arg.Any<string>()).Returns("ASDASDASDASDASDASDASDASDASD");
@@ -43,6 +44,26 @@ public class AddUserHandlerTest
         ex.ShouldBeNull();
 
     }
+    [Fact]
+    public async Task Handle_UserNotExistWithInvalidNick_ShouldThrowAnException()
+    {
+        var request = new AddUser
+        {
+            Email = "test@mail.com",
+            Password = "password12345"
+        };
+
+        _hasher.HashPassword(Arg.Any<User>(), Arg.Any<string>()).Returns("ASDASDASDASDASDASDASDASDASD");
+        _userRepository.ExistsByEmailAsync(request.Email).Returns(false);
+        
+        var ex = await Record.ExceptionAsync(async () =>await Act(request));
+
+        ex.ShouldNotBeNull();
+        ex.ShouldBeOfType<InvalidNickException>();
+        ((InvalidNickException) ex).Code.ShouldBe("invalid_nick");
+        
+
+    }
     
     [Fact]
     public async Task Handle_UserNotExist_CannotHashPassword_ShouldThrowAnException()
@@ -50,7 +71,8 @@ public class AddUserHandlerTest
         var request = new AddUser
         {
             Email = "test@mail.com",
-            Password = "password12345"
+            Password = "password12345",
+            Nick = "Paul"
         };
 
         var ex = await Record.ExceptionAsync(async () =>await Act(request));
@@ -59,6 +81,7 @@ public class AddUserHandlerTest
         ex.ShouldBeOfType<InvalidUserPasswordException>();
 
     }
+    
     
     [Fact]
     public async Task Handle_UserNotExist_NotValidUser_ShouldThrowAnException()

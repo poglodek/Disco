@@ -63,7 +63,7 @@ public class ValidateUserHandlerTest
     #region arrange
 
     private User ReturnUser(bool verified, Guid guid)
-        => new User(new AggregateId(guid), "email@test.com", verified, DateTime.Now);
+        => new User(new AggregateId(guid), "email@test.com", "Paul",verified, DateTime.Now);
 
     private readonly IUserRepository _userRepository;
     private readonly VerifyUserHandler _handler;

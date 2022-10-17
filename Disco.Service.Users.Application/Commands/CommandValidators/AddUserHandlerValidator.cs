@@ -8,5 +8,6 @@ public class AddUserHandlerValidator : AbstractValidator<AddUser>
     {
         RuleFor(x => x.Email).EmailAddress();
         RuleFor(x => x.Password).MinimumLength(7).MaximumLength(30);
+        RuleFor(x => x.Nick).MinimumLength(3).MaximumLength(30);
     }
 }

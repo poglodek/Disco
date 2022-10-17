@@ -9,20 +9,28 @@ public sealed class User : AggregateRoot
     public string Email { get; private set; }
 
     public string PasswordHash { get; private set; }
+    public string Nick { get; private set; }
     public bool Verified { get; private set; }
     public bool IsDeleted { get; private set; }
     public DateTime CreatedDate { get; private set; }
 
 
-    public User(AggregateId id, string email, bool verified, DateTime createdDate, bool isDeleted = false)
+    public User(AggregateId id, string email,string nick ,bool verified, DateTime createdDate, bool isDeleted = false)
     {
         ValidateEmail(email);
-       
+        ValidateNick(nick);
         Id = id;
+        Nick = nick;
         Email = email;
         Verified = verified;
         CreatedDate = createdDate;
         IsDeleted = isDeleted;
+    }
+
+    private void ValidateNick(string nick)
+    {
+        if(string.IsNullOrEmpty(nick))
+            throw new InvalidNickException("Nick cannot be empty");
     }
 
     public void SetNewPasswordHash(string passwordHash, string? password = null)
@@ -55,9 +63,9 @@ public sealed class User : AggregateRoot
             throw new InvalidUserEmailException(email);
     }
 
-    public static User Create(AggregateId id, string email, bool verify, DateTime createdDate, bool isDeleted = false)
+    public static User Create(AggregateId id, string email,string nick ,bool verify, DateTime createdDate, bool isDeleted = false)
     {
-        var user = new User(id, email,  verify,createdDate,isDeleted);
+        var user = new User(id, email,  nick,verify,createdDate,isDeleted);
         user.AddEvent(new UserCreated(user));
         return user;
     }
