@@ -1,3 +1,4 @@
+using Disco.Service.Users.Application.Dto;
 using MediatR;
 
 namespace Disco.Service.Users.Application.Commands;

@@ -3,7 +3,6 @@ using Disco.Service.Users.Application.Commands;
 using Disco.Service.Users.Application.Queries;
 using Disco.Service.Users.Infrastructure;
 using MediatR;
-using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,7 +12,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services
     .AddAuthorization()
-    .AddApplication()
+    .AddApplication(builder.Configuration)
     .AddInfrastructure(builder.Configuration);
 
 
@@ -42,7 +41,7 @@ void MapEndpoints(WebApplication webApplication)
 {
     webApplication.MapPost("AddUser", async (AddUser request, IMediator mediator) => { await mediator.Send(request); });
     webApplication.MapPut("VerifyUser", async (VerifyUser request, IMediator mediator) => { await mediator.Send(request); });
-    webApplication.MapGet("User/{id:guid}", async (Guid id, IMediator mediator) =>
+    webApplication.MapGet("Get/{id:guid}", async (Guid id, IMediator mediator) =>
     {
         var user = await mediator.Send(new GetUserInformation(id));
         if (user is not null)
@@ -50,4 +49,11 @@ void MapEndpoints(WebApplication webApplication)
         
         return Results.NotFound();
     });
+    webApplication.MapPost("login", async (UserLoginRequest user, IMediator mediator) =>
+    {
+        var token = await mediator.Send(user);
+        
+        return Results.Ok(token);
+    });
+
 }

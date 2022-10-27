@@ -16,4 +16,8 @@
       <ProjectReference Include="..\Disco.Service.Users.Infrastructure\Disco.Service.Users.Infrastructure.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="certs" />
+    </ItemGroup>
+
 </Project>

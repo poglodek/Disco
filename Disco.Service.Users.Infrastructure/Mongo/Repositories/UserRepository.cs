@@ -60,4 +60,10 @@ internal class UserRepository : IUserRepository
     {
         return _repository.RemoveAsync(x => x.Id.Equals(id));
     }
+
+    public async Task<User> GetAsyncByEmail(string email)
+    {
+        var entity = await _repository.GetAsync(x => x.Email == email);
+        return _mapper.Map<User>(entity);
+    }
 }
