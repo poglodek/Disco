@@ -19,8 +19,4 @@
       <ProjectReference Include="..\Disco.Shared\Disco.Shared.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Services" />
-    </ItemGroup>
-
 </Project>

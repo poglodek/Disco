@@ -3,7 +3,7 @@ using Disco.Service.Users.Core.Events;
 using Disco.Shared.Rabbit.Messages.Producer;
 using Microsoft.Extensions.Logging;
 
-namespace Disco.Service.Users.Infrastructure;
+namespace Disco.Service.Users.Infrastructure.Services;
 
 public class EventProcessor : IEventProcessor
 {

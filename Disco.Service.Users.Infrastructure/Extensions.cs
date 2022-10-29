@@ -4,6 +4,7 @@ using Disco.Service.Users.Core.Repositories;
 using Disco.Service.Users.Infrastructure.Middleware;
 using Disco.Service.Users.Infrastructure.Mongo.Documents;
 using Disco.Service.Users.Infrastructure.Mongo.Repositories;
+using Disco.Service.Users.Infrastructure.Services;
 using Disco.Shared.Mongo;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
