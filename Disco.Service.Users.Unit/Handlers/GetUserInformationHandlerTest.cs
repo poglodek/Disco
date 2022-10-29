@@ -7,6 +7,7 @@ using Disco.Service.Users.Application.Dto;
 using Disco.Service.Users.Application.Queries;
 using Disco.Service.Users.Core.Entities;
 using Disco.Service.Users.Core.Repositories;
+using Disco.Service.Users.Infrastructure.Exceptions;
 using Disco.Service.Users.Infrastructure.QueryHandlers;
 using FluentValidation;
 using Microsoft.AspNetCore.Identity;
@@ -36,26 +37,42 @@ public class GetUserInformationHandlerTest
         result.CreatedDate.ShouldBe(dt);
     }
     [Fact]
-    public async Task GetUser_WhenUserExistsButIsDeleted_ReturnsNull()
+    public async Task GetUser_WhenUserExistsButIsDeleted_ShouldThrowAnException()
     {
         var guid = Guid.NewGuid();
         var dt = DateTime.Now;
         _userRepository.GetAsync(guid).Returns(ReturnNewUser(guid,dt,true));
         
-        var result = await Act(guid);
-        
-        result.ShouldBeNull();
+        var ex = await Record.ExceptionAsync(async () => await Act(guid));
+
+        ex.ShouldNotBeNull();
+        ex.ShouldBeOfType<UserNotFoundException>();
+        ((UserNotFoundException) ex).Code.ShouldBe("user_not_found");
     }
     [Fact]
-    public async Task GetUser_WhenUserNot_ReturnsNull()
+    public async Task GetUser_WhenUserNot_ShouldThrowAnException()
     {
         var guid = Guid.NewGuid();
 
-        var result = await Act(guid);
-        
-        result.ShouldBeNull();
+        var ex = await Record.ExceptionAsync(async () => await Act(guid));
+
+        ex.ShouldNotBeNull();
+        ex.ShouldBeOfType<UserNotFoundException>();
+        ((UserNotFoundException) ex).Code.ShouldBe("user_not_found");
     }
 
+    [Fact]
+    public async Task GetUser_WhenGuidIsInvalid_ShouldThrowAnException()
+    {
+        var guid = Guid.Empty;
+
+        var ex = await Record.ExceptionAsync(async () => await Act(guid));
+
+        ex.ShouldNotBeNull();
+        ex.ShouldBeOfType<InvalidGuidIdException>();
+        ((InvalidGuidIdException) ex).Code.ShouldBe("invalid_guid_id");
+        
+    }
 
 
 

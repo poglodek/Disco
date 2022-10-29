@@ -3,6 +3,7 @@ using Disco.Service.Users.Application.Dto;
 using Disco.Service.Users.Application.Queries;
 using Disco.Service.Users.Core.Entities;
 using Disco.Service.Users.Core.Repositories;
+using Disco.Service.Users.Infrastructure.Exceptions;
 using MediatR;
 
 namespace Disco.Service.Users.Infrastructure.QueryHandlers;
@@ -20,14 +21,14 @@ public class GetUserInformationHandler : IRequestHandler<GetUserInformation,User
     {
         if (request.Id.Equals(Guid.Empty))
         {
-            return null;
+            throw new InvalidGuidIdException(request.Id);
         }
 
         var user = await _repository.GetAsync(request.Id);
 
         if (user is null || user.IsDeleted)
         {
-            return null;
+            throw new UserNotFoundException(request.Id);
         }
         
         return new UserDto(user.Id.Value, user.Email, user.Nick,user.Verified, user.CreatedDate);

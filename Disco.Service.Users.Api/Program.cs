@@ -44,16 +44,17 @@ void MapEndpoints(WebApplication webApplication)
     webApplication.MapGet("Get/{id:guid}", async (Guid id, IMediator mediator) =>
     {
         var user = await mediator.Send(new GetUserInformation(id));
-        if (user is not null)
-            return Results.Ok(user);
-        
-        return Results.NotFound();
+        return Results.Ok(user);
     });
     webApplication.MapPost("login", async (UserLoginRequest user, IMediator mediator) =>
     {
         var token = await mediator.Send(user);
-        
         return Results.Ok(token);
+    });
+    webApplication.MapDelete("delete/{id:guid}", async (Guid id, IMediator mediator) =>
+    {
+        await mediator.Send(new DeleteUser(id));
+        return Results.Ok();
     });
 
 }

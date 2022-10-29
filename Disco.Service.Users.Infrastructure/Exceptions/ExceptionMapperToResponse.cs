@@ -14,6 +14,7 @@ public static class ExceptionMapperToResponse
             Application.Exceptions.ApplicationException ex => new ExceptionResponse(HttpStatusCode.BadRequest,
                 GetCode(ex)),
             DomainException ex => new ExceptionResponse(HttpStatusCode.BadRequest, GetCode(ex)),
+            InfrastructureException ex => new ExceptionResponse(HttpStatusCode.BadRequest, GetCode(ex)),
             _ => new ExceptionResponse(HttpStatusCode.BadRequest, "There was an error."),
         };
 
@@ -24,6 +25,7 @@ public static class ExceptionMapperToResponse
             DomainException domainException when !string.IsNullOrWhiteSpace(domainException.Code) => domainException
                 .Code,
             Application.Exceptions.ApplicationException appException when !string.IsNullOrWhiteSpace(appException.Code) => appException.Code,
+            InfrastructureException appException when !string.IsNullOrWhiteSpace(appException.Code) => appException.Code,
             _ => "There was an error."
         };
     }
