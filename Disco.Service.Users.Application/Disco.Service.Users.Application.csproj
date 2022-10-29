@@ -18,6 +18,10 @@
     <ItemGroup>
       <ProjectReference Include="..\Disco.Service.Users.Core\Disco.Service.Users.Core.csproj" />
     </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Events\External" />
+    </ItemGroup>
     
 
 </Project>

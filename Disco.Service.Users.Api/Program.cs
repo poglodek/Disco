@@ -2,6 +2,7 @@ using Disco.Service.Users.Application;
 using Disco.Service.Users.Application.Commands;
 using Disco.Service.Users.Application.Queries;
 using Disco.Service.Users.Infrastructure;
+using Disco.Shared.Rabbit;
 using MediatR;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,7 +14,8 @@ builder.Services.AddSwaggerGen();
 builder.Services
     .AddAuthorization()
     .AddApplication(builder.Configuration)
-    .AddInfrastructure(builder.Configuration);
+    .AddInfrastructure(builder.Configuration)
+    .AddRabbitMQ(builder.Configuration);
 
 
 var app = builder.Build();
@@ -28,7 +30,8 @@ app.UseHttpsRedirection();
 
 MapEndpoints(app);
 
-app.UseInfrastructure();
+app.UseInfrastructure()
+    .UseRabbitMQ();
 
 app.UseAuthorization();
 
@@ -56,5 +59,7 @@ void MapEndpoints(WebApplication webApplication)
         await mediator.Send(new DeleteUser(id));
         return Results.Ok();
     });
-
+    
+    
+    
 }
