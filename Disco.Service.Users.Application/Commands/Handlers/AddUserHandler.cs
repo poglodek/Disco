@@ -1,4 +1,5 @@
 using Disco.Service.Users.Application.Exceptions;
+using Disco.Service.Users.Application.Services;
 using Disco.Service.Users.Core.Entities;
 using Disco.Service.Users.Core.Repositories;
 using FluentValidation;
@@ -13,12 +14,14 @@ public class AddUserHandler : IRequestHandler<AddUser,Unit>
     private readonly IUserRepository _userRepository;
     private readonly IPasswordHasher<User> _hasher;
     private readonly IValidator<AddUser> _validator;
+    private readonly IEventProcessor _eventProcessor;
 
-    public AddUserHandler(IUserRepository userRepository, IPasswordHasher<User> hasher, IValidator<AddUser> validator)
+    public AddUserHandler(IUserRepository userRepository, IPasswordHasher<User> hasher, IValidator<AddUser> validator, IEventProcessor eventProcessor)
     {
         _userRepository = userRepository;
         _hasher = hasher;
         _validator = validator;
+        _eventProcessor = eventProcessor;
     }
     
     public async Task<Unit> Handle(AddUser request, CancellationToken cancellationToken)
@@ -42,6 +45,8 @@ public class AddUserHandler : IRequestHandler<AddUser,Unit>
         user.SetNewPasswordHash(hash,request.Password);
         
         await _userRepository.AddAsync(user);
+
+        await _eventProcessor.ProcessAsync(user.Events);
         
         return Unit.Value;
     }

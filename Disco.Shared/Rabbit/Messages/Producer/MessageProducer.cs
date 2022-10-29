@@ -18,8 +18,7 @@ internal sealed class MessageProducer : IMessageProducer
     
     public Task PublishAsync<T>(T message) where T : class
     {
-        var key = typeof(T).Name;
-        
+        var key = message.GetType().Name;
         var body = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(message));
 
         _logger.LogInformation($"Publishing message with key: {key}");

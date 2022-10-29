@@ -1,11 +1,14 @@
 using System;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Disco.Service.Users.Application.Commands;
 using Disco.Service.Users.Application.Commands.CommandValidators;
 using Disco.Service.Users.Application.Commands.Handlers;
 using Disco.Service.Users.Application.Exceptions;
+using Disco.Service.Users.Application.Services;
 using Disco.Service.Users.Core.Entities;
+using Disco.Service.Users.Core.Events;
 using Disco.Service.Users.Core.Exceptions;
 using Disco.Service.Users.Core.Repositories;
 using Disco.Service.Users.Infrastructure.Mongo.Documents;
@@ -40,6 +43,7 @@ public class AddUserHandlerTest
         var ex = await Record.ExceptionAsync(async () =>await Act(request));
 
         await _userRepository.Received(1).AddAsync(Arg.Any<User>());
+        await _processor.Received(1).ProcessAsync(Arg.Any<IEnumerable<IDomainEvent>>());
         
         ex.ShouldBeNull();
 
@@ -128,6 +132,7 @@ public class AddUserHandlerTest
     private readonly IUserRepository _userRepository;
     private readonly IPasswordHasher<User> _hasher;
     private readonly IValidator<AddUser> _validator;
+    private readonly IEventProcessor _processor;
     private readonly AddUserHandler _handler;
     
     public AddUserHandlerTest()
@@ -135,8 +140,9 @@ public class AddUserHandlerTest
         _userRepository = Substitute.For<IUserRepository>();
         _hasher = Substitute.For<IPasswordHasher<User>>();
         _validator = new AddUserHandlerValidator();
+        _processor = Substitute.For<IEventProcessor>();
         
-        _handler = new AddUserHandler(_userRepository, _hasher,_validator);
+        _handler = new AddUserHandler(_userRepository, _hasher,_validator,_processor);
     }
     
     

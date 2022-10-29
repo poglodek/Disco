@@ -1,3 +1,4 @@
+using Disco.Service.Users.Application.Services;
 using Disco.Service.Users.Core.Entities;
 using Disco.Service.Users.Core.Repositories;
 using Disco.Service.Users.Infrastructure.Middleware;
@@ -17,6 +18,7 @@ public static class Extensions
             .AddMongo<UserDocument,Guid>(configuration)
             .AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies())
             .AddSingleton<IUserRepository,UserRepository>()
+            .AddScoped<IEventProcessor,EventProcessor>()
             .AddScoped<CustomMiddleware>();
     
     public static IApplicationBuilder UseInfrastructure(this IApplicationBuilder app)

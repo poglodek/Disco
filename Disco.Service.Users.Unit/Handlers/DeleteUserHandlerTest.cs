@@ -1,10 +1,12 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Disco.Service.Users.Application.Commands;
 using Disco.Service.Users.Application.Commands.Handlers;
 using Disco.Service.Users.Application.Exceptions;
+using Disco.Service.Users.Application.Services;
 using Disco.Service.Users.Core.Entities;
 using Disco.Service.Users.Core.Events;
 using Disco.Service.Users.Core.Exceptions;
@@ -66,6 +68,9 @@ public class DeleteUserHandlerTest
         user.IsDeleted.ShouldBe(true);
         user.Events.Count().ShouldBe(1);
         user.Events.First().ShouldBeOfType<UserDeleted>();
+
+        await _userRepository.Received(1).UpdateAsync(Arg.Any<User>());
+        await _processor.Received(1).ProcessAsync(Arg.Any<IEnumerable<IDomainEvent>>());
     }
     
 
@@ -74,13 +79,14 @@ public class DeleteUserHandlerTest
     
     private readonly IUserRepository _userRepository;
     private readonly DeleteUserHandler _handler;
+    private readonly IEventProcessor _processor;
     
     public DeleteUserHandlerTest()
     {
         _userRepository = Substitute.For<IUserRepository>();
-
+        _processor = Substitute.For<IEventProcessor>();
         
-        _handler = new DeleteUserHandler(_userRepository);
+        _handler = new DeleteUserHandler(_userRepository,_processor);
     }
     
     

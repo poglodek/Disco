@@ -1,10 +1,13 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Disco.Service.Users.Application.Commands;
 using Disco.Service.Users.Application.Commands.CommandValidators;
 using Disco.Service.Users.Application.Commands.Handlers;
 using Disco.Service.Users.Application.Exceptions;
+using Disco.Service.Users.Application.Services;
 using Disco.Service.Users.Core.Entities;
+using Disco.Service.Users.Core.Events;
 using Disco.Service.Users.Core.Exceptions;
 using Disco.Service.Users.Core.Repositories;
 using FluentValidation;
@@ -32,6 +35,7 @@ public class ValidateUserHandlerTest
         ex.ShouldBeNull();
 
         await _userRepository.Received(1).UpdateAsync(Arg.Any<User>());
+        await _processor.Received(1).ProcessAsync(Arg.Any<IEnumerable<IDomainEvent>>());
     }
     
     [Fact]
@@ -67,12 +71,14 @@ public class ValidateUserHandlerTest
 
     private readonly IUserRepository _userRepository;
     private readonly VerifyUserHandler _handler;
+    private readonly IEventProcessor _processor;
     
     public ValidateUserHandlerTest()
     {
         _userRepository = Substitute.For<IUserRepository>();
-
-        _handler = new VerifyUserHandler(_userRepository);
+        _processor = Substitute.For<IEventProcessor>();
+        
+        _handler = new VerifyUserHandler(_userRepository, _processor);
     }
     
     
