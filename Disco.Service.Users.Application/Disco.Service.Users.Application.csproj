@@ -20,7 +20,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Events\External" />
+      <Folder Include="Events\External\Handlers" />
     </ItemGroup>
     
 

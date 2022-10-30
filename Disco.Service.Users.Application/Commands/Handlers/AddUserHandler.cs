@@ -1,7 +1,7 @@
 using Disco.Service.Users.Application.Exceptions;
-using Disco.Service.Users.Application.Services;
 using Disco.Service.Users.Core.Entities;
 using Disco.Service.Users.Core.Repositories;
+using Disco.Shared.Rabbit.OutboxPattern.Services;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Identity;

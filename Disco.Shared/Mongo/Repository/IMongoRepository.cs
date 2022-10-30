@@ -18,4 +18,6 @@ public interface IMongoRepository<TEntity,TKey> where TEntity : IIdentifiable<TK
     Task<bool> ExistsAsync(IIdentifiable<TKey> id);
     
     Task<bool> ExistsAsync(Expression<Func<TEntity, bool>> predicate);
+
+    void ChangeCollection(string collectionName);
 }

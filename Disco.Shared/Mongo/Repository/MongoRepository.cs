@@ -6,10 +6,12 @@ namespace Disco.Shared.Mongo.Repository;
 
 internal sealed class MongoRepository<TEntity, TKey> : IMongoRepository<TEntity,TKey> where TEntity : IIdentifiable<TKey>
 {
-    public IMongoCollection<TEntity> Collection { get; }
+    private readonly IMongoDatabase _db;
+    public IMongoCollection<TEntity> Collection { get; private set; }
 
     public MongoRepository(IMongoDatabase db, string? collection)
     {
+        _db = db;
         Collection = db.GetCollection<TEntity>(collection);
     }
 
@@ -43,4 +45,9 @@ internal sealed class MongoRepository<TEntity, TKey> : IMongoRepository<TEntity,
 
     public async Task<bool> ExistsAsync(Expression<Func<TEntity, bool>> predicate)
         => await (await Collection.FindAsync(predicate)).AnyAsync();
+
+    public void ChangeCollection(string collectionName)
+    {
+        Collection = _db.GetCollection<TEntity>(collectionName);
+    }
 }

@@ -20,8 +20,14 @@ internal sealed class RabbitConnection : IRabbitConnection
     
     public void Connect()
     {
-        var factory = new ConnectionFactory 
-            { HostName = _options.HostName, UserName = _options.UserName, Password = _options.Password};
+        var factory = new ConnectionFactory
+        {
+            HostName = _options.HostName, 
+            UserName = _options.UserName, 
+            Password = _options.Password,
+            DispatchConsumersAsync = true
+            
+        };
         
         _connection = factory.CreateConnection();
         Channel = _connection.CreateModel();

@@ -4,10 +4,10 @@ namespace Disco.Service.Users.Core.Events;
 
 public class UserDeleted : IDomainEvent
 {
-    public UserDeleted(User user)
+    public UserDeleted(Guid userId)
     {
-        User = user;
+        UserId = userId;
     }
 
-    public User User { get; }
+    public Guid UserId { get; }
 }

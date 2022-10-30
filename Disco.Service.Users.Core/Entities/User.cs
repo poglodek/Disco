@@ -66,7 +66,7 @@ public sealed class User : AggregateRoot
     public static User Create(AggregateId id, string email,string nick ,bool verify, DateTime createdDate, bool isDeleted = false)
     {
         var user = new User(id, email,  nick,verify,createdDate,isDeleted);
-        user.AddEvent(new UserCreated(user));
+        user.AddEvent(new UserCreated(user.Id.Value));
         return user;
     }
 
@@ -78,7 +78,7 @@ public sealed class User : AggregateRoot
         Verified = true;
         Version++;
         
-        AddEvent(new UserVerified(this));
+        AddEvent(new UserVerified(this.Id.Value));
     }
     
     public void SoftDeleteUser()
@@ -88,7 +88,7 @@ public sealed class User : AggregateRoot
 
         IsDeleted = true;
         Version++;
-       AddEvent(new UserDeleted(this));
+       AddEvent(new UserDeleted(this.Id.Value));
     }
     
 }

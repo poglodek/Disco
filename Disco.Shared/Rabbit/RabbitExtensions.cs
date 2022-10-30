@@ -3,6 +3,8 @@ using Disco.Shared.Rabbit.Exceptions;
 using Disco.Shared.Rabbit.Messages;
 using Disco.Shared.Rabbit.Messages.Consumer;
 using Disco.Shared.Rabbit.Messages.Producer;
+using Disco.Shared.Rabbit.OutboxPattern;
+using Disco.Shared.Rabbit.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -24,8 +26,11 @@ public static class RabbitExtensions
         service.AddSingleton<IRabbitConnection,RabbitConnection>();
         service.AddSingleton<IConsumerBinder,ConsumerBinder>();
         
-        service.AddScoped<IMessageProducer, MessageProducer>();
+        service.AddSingleton<IAssembliesService,AssembliesService>();
         
+        
+        service.AddScoped<IMessageProducer, MessageProducer>();
+        service.AddOutboxPattern(configuration);
         return service;
     }
     public static IApplicationBuilder UseRabbitMQ(this IApplicationBuilder app)

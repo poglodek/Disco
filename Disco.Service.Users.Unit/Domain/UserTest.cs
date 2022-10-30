@@ -33,7 +33,7 @@ public class UserTest
 
         var @event = user.Events.Single();
         @event.ShouldBeOfType<UserCreated>();
-        ((UserCreated) @event).User.ShouldBe(user);
+        ((UserCreated) @event).UserId.ShouldBe(id.Value);
     }
 
     [Fact]
@@ -144,7 +144,7 @@ public class UserTest
         var @event = user.Events.Single();
 
         @event.ShouldBeOfType<UserDeleted>();
-        ((UserDeleted) @event).User.ShouldBe(user);
+        ((UserDeleted) @event).UserId.ShouldBe(user.Id.Value);
     }
 
     [Fact]
@@ -160,7 +160,7 @@ public class UserTest
         var @event = user.Events.Single();
 
         @event.ShouldBeOfType<UserDeleted>();
-        ((UserDeleted) @event).User.ShouldBe(user);
+        ((UserDeleted) @event).UserId.ShouldBe(user.Id.Value);
 
         var ex = Record.Exception(() => user.SoftDeleteUser());
 
@@ -183,7 +183,7 @@ public class UserTest
         var @event = user.Events.Single();
 
         @event.ShouldBeOfType<UserVerified>();
-        ((UserVerified) @event).User.ShouldBe(user);
+        ((UserVerified) @event).UserId.ShouldBe(user.Id.Value);
     }
 
     [Fact]
@@ -199,7 +199,7 @@ public class UserTest
         var @event = user.Events.Single();
 
         @event.ShouldBeOfType<UserVerified>();
-        ((UserVerified) @event).User.ShouldBe(user);
+        ((UserVerified) @event).UserId.ShouldBe(user.Id.Value);
 
         var ex = Record.Exception(() => user.VerifyUser());
 

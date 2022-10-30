@@ -1,11 +1,17 @@
 using System.Reflection;
 using System.Text;
-using System.Text.Json;
+using System.Text.Json.Serialization;
 using Disco.Shared.Rabbit.Connection;
+using Disco.Shared.Rabbit.OutboxPattern.Models;
+using Disco.Shared.Rabbit.OutboxPattern.Repository;
+using Disco.Shared.Rabbit.OutboxPattern.Repository.Inbox;
+using Disco.Shared.Rabbit.Services;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
+using JsonSerializer = System.Text.Json.JsonSerializer;
 using Type = System.Type;
 
 namespace Disco.Shared.Rabbit.Messages.Consumer;
@@ -13,26 +19,32 @@ namespace Disco.Shared.Rabbit.Messages.Consumer;
 public class ConsumerBinder : IConsumerBinder
 {
     private readonly RabbitOptions _options;
+    private readonly IInboxRepository _repository;
+    private readonly IAssembliesService _assembliesService;
     private readonly IModel _channel;
-    private readonly IMediator _mediator;
     private readonly ILogger<ConsumerBinder> _logger;
     private IEnumerable<Type> _assemblies;
 
-    public ConsumerBinder(IRabbitConnection connection, RabbitOptions options,IMediator mediator, ILogger<ConsumerBinder> logger)
+    public ConsumerBinder(IRabbitConnection connection, RabbitOptions options, ILogger<ConsumerBinder> logger, 
+        IInboxRepository repository, IAssembliesService assembliesService)
     {
         _options = options;
-        _mediator = mediator;
+        _repository = repository;
+        _assembliesService = assembliesService;
         _logger = logger;
         _channel = connection.Channel;
     }
     public void BindAllConsumers()
     {
-        var consumers = GetConsumersFromAssembly();
+        _assemblies = _assembliesService
+            .ReturnTypes()
+            .Where(t => typeof(INotification).IsAssignableFrom(t) 
+                        && t.GetCustomAttributes(typeof(MessageAttribute),true).Length > 0);
+        
         var exchange = _options.Exchange;
 
-        _assemblies = GetConsumersFromAssembly();
-        
-        _logger.LogInformation($"Bind consumers ({consumers.Count()}) to exchange {exchange}");
+       
+        _logger.LogInformation($"Bind consumers ({_assemblies.Count()}) to exchange {exchange}");
         
         foreach (var consumerType in _assemblies)
         {
@@ -43,7 +55,7 @@ public class ConsumerBinder : IConsumerBinder
             
             _logger.LogInformation($"Queue bind to exchange {exchange} with key {key}");
 
-            var consumer = new EventingBasicConsumer(_channel);
+            var consumer = new AsyncEventingBasicConsumer(_channel);
             consumer.Received += ConsumerOnReceived;
             
             _channel.BasicConsume(queue:queueName,autoAck:true,consumer:consumer);
@@ -54,37 +66,23 @@ public class ConsumerBinder : IConsumerBinder
         
     }
 
-    private void ConsumerOnReceived(object? sender, BasicDeliverEventArgs @event)
+    private async Task  ConsumerOnReceived(object? sender, BasicDeliverEventArgs @event)
     {
         var body = @event.Body.ToArray();
         var message = Encoding.UTF8.GetString(body);
         
         var type = _assemblies.FirstOrDefault(x => x.Name == @event.RoutingKey);
         
-        
         _logger.LogInformation($"Recived message with key {type.Name}");
         
-        var request = JsonSerializer.Deserialize(message,type);
-        
-        if (request is not null)
+        if (!string.IsNullOrWhiteSpace(message))
         {
-            _mediator.Publish(request);    
-            _logger.LogInformation($"Recived message with key {type.Name} handled successfully");
+            var inbox = new Inbox(Guid.NewGuid(), type.Name, DateTime.Now, message);
+            await _repository.SaveEvent(inbox);
+            
+            _logger.LogInformation($"Recived message with key {type.Name} save in in-box successfully");
         }
+        
     }
     
-
-    private IEnumerable<Type> GetConsumersFromAssembly()
-    {
-        var assemblies = AppDomain.CurrentDomain.GetAssemblies().ToList();
-        var locations = assemblies.Where(x => !x.IsDynamic).Select(x => x.Location).ToArray();
-        var files = Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory, "*.dll")
-            .Where(x => !locations.Contains(x, StringComparer.InvariantCultureIgnoreCase))
-            .ToList();
-        files.ForEach(x => assemblies.Add(AppDomain.CurrentDomain.Load(AssemblyName.GetAssemblyName(x))));
-        
-        return assemblies
-            .SelectMany(x => x.GetTypes())
-            .Where(t => typeof(INotification).IsAssignableFrom(t) && t.GetCustomAttributes(typeof(MessageAttribute),true).Length > 0);
-    }
 }

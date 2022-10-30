@@ -11,7 +11,7 @@ public static class MongoExtensions
 
     public static IServiceCollection AddMongo<TEntity,TKey>(this IServiceCollection service, IConfiguration configuration) where TEntity : IIdentifiable<TKey>
     {
-        var mongoOption = configuration.GetSection("mongo").Get<MongoOptions>();
+        var mongoOption = configuration?.GetSection("mongo").Get<MongoOptions>();
         
         ValidateOptions(mongoOption);
         

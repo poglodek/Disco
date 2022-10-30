@@ -14,8 +14,7 @@ builder.Services.AddSwaggerGen();
 builder.Services
     .AddAuthorization()
     .AddApplication(builder.Configuration)
-    .AddInfrastructure(builder.Configuration)
-    .AddRabbitMQ(builder.Configuration);
+    .AddInfrastructure(builder.Configuration);
 
 
 var app = builder.Build();
@@ -30,8 +29,7 @@ app.UseHttpsRedirection();
 
 MapEndpoints(app);
 
-app.UseInfrastructure()
-    .UseRabbitMQ();
+app.UseInfrastructure();
 
 app.UseAuthorization();
 

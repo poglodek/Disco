@@ -1,7 +1,7 @@
 using Disco.Service.Users.Application.Exceptions;
-using Disco.Service.Users.Application.Services;
 using Disco.Service.Users.Core.Exceptions;
 using Disco.Service.Users.Core.Repositories;
+using Disco.Shared.Rabbit.OutboxPattern.Services;
 using MediatR;
 
 namespace Disco.Service.Users.Application.Commands.Handlers;

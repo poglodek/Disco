@@ -4,10 +4,10 @@ namespace Disco.Service.Users.Core.Events;
 
 public class UserCreated : IDomainEvent
 {
-    public UserCreated(User user)
+    public UserCreated(Guid userId)
     {
-        User = user;
+        UserId = userId;
     }
 
-    public User User { get; }
+    public Guid UserId { get; }
 }

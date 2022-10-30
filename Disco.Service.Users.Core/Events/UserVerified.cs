@@ -4,10 +4,10 @@ namespace Disco.Service.Users.Core.Events;
 
 public class UserVerified : IDomainEvent
 {
-    public UserVerified(User user)
+    public UserVerified(Guid userId)
     {
-        User = user;
+        UserId = userId;
     }
 
-    public User User { get; }
+    public Guid UserId { get; }
 }
