@@ -15,7 +15,7 @@ public class BackgroundPublisherService : Microsoft.Extensions.Hosting.Backgroun
 {
     private readonly ILogger<BackgroundPublisherService> _logger;
     private readonly IOutboxRepository _repository;
-    private IEnumerable<Type> _types;
+    private readonly IEnumerable<Type> _types;
     private readonly IMessageProducer _producer;
     private readonly PeriodicTimer _timer;
     private readonly AsyncRetryPolicy _retryPolicy;

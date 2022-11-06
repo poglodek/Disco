@@ -14,7 +14,7 @@ public class JsonWebTokenManager : IJsonWebTokenManager
     public JsonWebTokenManager(AuthOptions options, AuthExtensions.SecurityKeyCert key)
     {
         _options = options;
-        _signingCredentials = new SigningCredentials(key.key, SecurityAlgorithms.RsaSha256);
+        _signingCredentials = new SigningCredentials(key.Key, SecurityAlgorithms.RsaSha256);
     }
 
     public JWTokenDto CreateToken(Guid userId, string email, IDictionary<string,string> claims = null)

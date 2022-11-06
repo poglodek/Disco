@@ -25,7 +25,7 @@ internal class UserRepository : IUserRepository
         
         var user = _mapper.Map<User>(entity);
         
-        if (user is not null)
+        if (user is not null && !string.IsNullOrWhiteSpace(user.PasswordHash))
         {
             user.SetNewPasswordHash(entity.PasswordHash);    
         }

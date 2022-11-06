@@ -118,6 +118,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Disco.Service.Programs.Inte
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Disco.Service.Users.Integration", "Disco.Service.Users.Integration\Disco.Service.Users.Integration.csproj", "{4C5DA850-EDB6-4A99-86E0-AECB764C6B24}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Disco.Shared.Test", "Disco.Shared.Test\Disco.Shared.Test.csproj", "{834E9B3C-0D66-4B4C-8976-F6BD694261D4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -276,6 +278,10 @@ Global
 		{4C5DA850-EDB6-4A99-86E0-AECB764C6B24}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4C5DA850-EDB6-4A99-86E0-AECB764C6B24}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4C5DA850-EDB6-4A99-86E0-AECB764C6B24}.Release|Any CPU.Build.0 = Release|Any CPU
+		{834E9B3C-0D66-4B4C-8976-F6BD694261D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{834E9B3C-0D66-4B4C-8976-F6BD694261D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{834E9B3C-0D66-4B4C-8976-F6BD694261D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{834E9B3C-0D66-4B4C-8976-F6BD694261D4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{8FFCB784-622A-47C9-B585-EDED6E6B2545} = {427BEDDF-6B03-4B4C-82F6-BEDBA4673C23}

@@ -58,6 +58,6 @@ void MapEndpoints(WebApplication webApplication)
         return Results.Ok();
     });
     
-    
-    
 }
+// ReSharper disable once UnusedType.Global
+public partial class Program{}

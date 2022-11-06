@@ -11,6 +11,7 @@
       <Folder Include="Fabio" />
       <Folder Include="Logger" />
       <Folder Include="Redis" />
+      <Folder Include="Tests" />
       <Folder Include="Vault" />
     </ItemGroup>
 

@@ -1,4 +1,6 @@
 using System.Security.Cryptography.X509Certificates;
+using System.Text;
+using Disco.Shared.Auth.Exceptions;
 using Microsoft.AspNetCore.Authentication.Certificate;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
@@ -12,9 +14,8 @@ public static class AuthExtensions
     public static IServiceCollection AddAuth(this IServiceCollection serviceCollection, IConfiguration configuration)
     {
         var options = configuration.GetSection("auth").Get<AuthOptions>();
-        
-        var key = new X509SecurityKey(new X509Certificate2(options.Url!,options.Password!));
-        
+        var key = ReturnSecurityKeyFromConfiguration(options);
+
         serviceCollection.AddSingleton(_ => options);
         serviceCollection.AddAuthorization(x =>
         {
@@ -48,5 +49,26 @@ public static class AuthExtensions
         return serviceCollection;
     }
 
-    public record SecurityKeyCert(SecurityKey key);
+    private static SecurityKey? ReturnSecurityKeyFromConfiguration(AuthOptions options)
+    {
+        var certIsInConfig = options.Url is not null || options.Password is not null;
+        var certExists = certIsInConfig && File.Exists(options.Url);
+        var jwtKeyExists = options.JwtKey is not null;
+
+        if (certExists)
+        {
+            return new X509SecurityKey(new X509Certificate2(options.Url!, options.Password!));
+        }
+        
+        if (jwtKeyExists)
+        {
+            return new SymmetricSecurityKey(Encoding.UTF8.GetBytes(options.JwtKey!));
+        }
+
+        throw new InvalidAuthConfigException("Auth config is invalid missing jwtKey or valid url with password");
+        
+        
+    }
+
+    public record SecurityKeyCert(SecurityKey Key);
 }
