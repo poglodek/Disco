@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Disco.Service.Users.Application.Commands;
 using Disco.Service.Users.Integration.Helpers;
 using Disco.Shared.Test.Factories;
+using Disco.Shared.Test.Helpers;
 using Newtonsoft.Json;
 using Shouldly;
 using Xunit;
