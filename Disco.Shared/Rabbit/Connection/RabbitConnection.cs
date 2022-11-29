@@ -39,7 +39,7 @@ internal sealed class RabbitConnection : IRabbitConnection
     }
     public Task PublishAsync(byte[] obj, string key)
     {
-        Channel.BasicPublish(_options.Exchange,key,basicProperties:null, body:obj);
+        Channel.BasicPublish(_options.Exchange,key,basicProperties:null, body:obj); 
         return Task.CompletedTask;
     }
     

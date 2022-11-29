@@ -14,8 +14,4 @@
       <ProjectReference Include="..\Disco.Shared\Disco.Shared.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Events\External\Handlers" />
-    </ItemGroup>
-
 </Project>
