@@ -21,4 +21,8 @@
         </PackageReference>
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Disco.Service.Barcodes.Core\Disco.Service.Barcodes.Core.csproj" />
+    </ItemGroup>
+
 </Project>

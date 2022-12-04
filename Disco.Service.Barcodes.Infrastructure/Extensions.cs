@@ -1,4 +1,4 @@
-using Disco.Service.Barcodes.Application.Repositories;
+using Disco.Service.Barcodes.Core.Repositories;
 using Disco.Service.Barcodes.Infrastructure.Mongo.Documents;
 using Disco.Service.Barcodes.Infrastructure.Mongo.Repositories;
 using Disco.Shared.Mongo;

@@ -11,6 +11,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Disco.Service.Barcodes.Core\Disco.Service.Barcodes.Core.csproj" />
       <ProjectReference Include="..\Disco.Shared\Disco.Shared.csproj" />
     </ItemGroup>
 

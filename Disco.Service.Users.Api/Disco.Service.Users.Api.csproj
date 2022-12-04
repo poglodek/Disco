@@ -20,4 +20,10 @@
       <Folder Include="certs" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Update="certs\localhost.pfx">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
 </Project>
