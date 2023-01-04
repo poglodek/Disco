@@ -1,24 +1,23 @@
 using Disco.Service.Users.Core.Events;
 using Disco.Service.Users.Core.Exceptions;
+using Disco.Service.Users.Core.ValueObjects;
 using Disco.Shared.Mongo;
 
 namespace Disco.Service.Users.Core.Entities;
 
 public sealed class User : AggregateRoot
 {
-    public string Email { get; private set; }
+    public Email Email { get; private set; }
 
-    public string PasswordHash { get; private set; }
-    public string Nick { get; private set; }
-    public bool Verified { get; private set; }
-    public bool IsDeleted { get; private set; }
-    public DateTime CreatedDate { get; private set; }
+    public PasswordHash PasswordHash { get; private set; }
+    public Nick Nick { get; private set; }
+    public Verified Verified { get; private set; }
+    public IsDeleted IsDeleted { get; private set; }
+    public CreatedDate CreatedDate { get; private set; }
 
 
     public User(AggregateId id, string email,string nick ,bool verified, DateTime createdDate, bool isDeleted = false)
     {
-        ValidateEmail(email);
-        ValidateNick(nick);
         Id = id;
         Nick = nick;
         Email = email;
@@ -26,43 +25,21 @@ public sealed class User : AggregateRoot
         CreatedDate = createdDate;
         IsDeleted = isDeleted;
     }
-
-    private void ValidateNick(string nick)
-    {
-        if(string.IsNullOrEmpty(nick))
-            throw new InvalidNickException("Nick cannot be empty");
-    }
-
+    
     public void SetNewPasswordHash(string passwordHash, string? password = null)
     {
         if (password is not null)
         {
-            ValidatePassword(password);
+            PasswordHash.ValidatePassword(password);
         }
         
-        ValidatePassword(passwordHash);
+        PasswordHash.ValidatePassword(passwordHash);
         
         PasswordHash = passwordHash;
     }
-    private void ValidatePassword(string password)
-    {
-        if (password is null)
-            throw new InvalidUserPasswordException(nameof(password));
-        
-        if(password.Length < 7)
-            throw new InvalidUserPasswordException(password);
-        
-    }
+    
 
-    private void ValidateEmail(string email)
-    {
-        if (email.Length is < 7 or > 30)
-            throw new InvalidUserEmailException(email);
-        
-        if(!email.Contains("@"))
-            throw new InvalidUserEmailException(email);
-    }
-
+    
     public static User Create(AggregateId id, string email,string nick ,bool verify, DateTime createdDate, bool isDeleted = false)
     {
         var user = new User(id, email,  nick,verify,createdDate,isDeleted);
@@ -78,7 +55,7 @@ public sealed class User : AggregateRoot
         Verified = true;
         Version++;
         
-        AddEvent(new UserVerified(this.Id.Value));
+        AddEvent(new UserVerified(Id.Value));
     }
     
     public void SoftDeleteUser()
@@ -88,7 +65,7 @@ public sealed class User : AggregateRoot
 
         IsDeleted = true;
         Version++;
-       AddEvent(new UserDeleted(this.Id.Value));
+       AddEvent(new UserDeleted(Id.Value));
     }
     
 }

@@ -65,7 +65,7 @@ public class DeleteUserHandlerTest
         
         await Act(request);
         
-        user.IsDeleted.ShouldBe(true);
+        user.IsDeleted.Value.ShouldBe(true);
         user.Events.Count().ShouldBe(1);
         user.Events.First().ShouldBeOfType<UserDeleted>();
 

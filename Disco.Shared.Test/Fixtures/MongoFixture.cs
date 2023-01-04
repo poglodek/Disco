@@ -1,3 +1,5 @@
+using System;
+using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using Disco.Service.Users.Integration.Helpers;
@@ -30,7 +32,14 @@ public class MongoFixture
 
     public void CreateCollection()
     {
-        _db.CreateCollection(_collectionName);
+        try
+        {
+            _db.CreateCollection(_collectionName);
+        }
+        catch (Exception e)
+        {
+            Debug.WriteLine(e);
+        }
     }
 
     public void DropCollection()

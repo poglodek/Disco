@@ -26,10 +26,10 @@ public class UserTest
 
         user.ShouldNotBeNull();
         user.Id.Value.ShouldNotBe(Guid.Empty);
-        user.Verified.ShouldBeFalse();
-        user.Email.ShouldBe("test@email.com");
-        user.CreatedDate.ShouldBe(dt);
-        user.Nick.ShouldBe("Paul");
+        user.Verified.Value.ShouldBeFalse();
+        user.Email.Value.ShouldBe("test@email.com");
+        user.CreatedDate.Value.ShouldBe(dt);
+        user.Nick.Value.ShouldBe("Paul");
 
         var @event = user.Events.Single();
         @event.ShouldBeOfType<UserCreated>();
@@ -43,7 +43,7 @@ public class UserTest
         var user = ReturnNewUser();
         user.SetNewPasswordHash(hash);
         
-        user.PasswordHash.ShouldBe(hash);
+        user.PasswordHash.Value.ShouldBe(hash);
     }
 
     [Theory]
@@ -136,11 +136,11 @@ public class UserTest
     {
         var user = ReturnNewUser();
 
-        user.IsDeleted.ShouldBeFalse();
+        user.IsDeleted.Value.ShouldBeFalse();
 
         user.SoftDeleteUser();
 
-        user.IsDeleted.ShouldBeTrue();
+        user.IsDeleted.Value.ShouldBeTrue();
         var @event = user.Events.Single();
 
         @event.ShouldBeOfType<UserDeleted>();
@@ -152,11 +152,11 @@ public class UserTest
     {
         var user = ReturnNewUser();
 
-        user.IsDeleted.ShouldBeFalse();
+        user.IsDeleted.Value.ShouldBeFalse();
 
         user.SoftDeleteUser();
 
-        user.IsDeleted.ShouldBeTrue();
+        user.IsDeleted.Value.ShouldBeTrue();
         var @event = user.Events.Single();
 
         @event.ShouldBeOfType<UserDeleted>();
@@ -175,11 +175,11 @@ public class UserTest
     {
         var user = ReturnNewUser();
 
-        user.Verified.ShouldBeFalse();
+        user.Verified.Value.ShouldBeFalse();
 
         user.VerifyUser();
 
-        user.Verified.ShouldBeTrue();
+        user.Verified.Value.ShouldBeTrue();
         var @event = user.Events.Single();
 
         @event.ShouldBeOfType<UserVerified>();
@@ -191,11 +191,11 @@ public class UserTest
     {
         var user = ReturnNewUser();
 
-        user.Verified.ShouldBeFalse();
+        user.Verified.Value.ShouldBeFalse();
 
         user.VerifyUser();
 
-        user.Verified.ShouldBeTrue();
+        user.Verified.Value.ShouldBeTrue();
         var @event = user.Events.Single();
 
         @event.ShouldBeOfType<UserVerified>();
