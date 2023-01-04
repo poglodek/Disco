@@ -33,4 +33,10 @@ internal sealed class BarcodeRepository : IBarcodeRepository
         var document = await _repository.GetAsync(x=>x.Code.Equals(id));
         return _mapper.Map<Barcode>(document);
     }
+
+    public Task SaveBarCode(Barcode barcode)
+    {
+        var document = _mapper.Map<BarcodeDocument>(barcode);
+        return _repository.AddAsync(document);
+    }
 }

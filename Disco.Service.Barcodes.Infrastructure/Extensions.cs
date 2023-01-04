@@ -1,4 +1,5 @@
 using Disco.Service.Barcodes.Core.Repositories;
+using Disco.Service.Barcodes.Infrastructure.Middleware;
 using Disco.Service.Barcodes.Infrastructure.Mongo.Documents;
 using Disco.Service.Barcodes.Infrastructure.Mongo.Repositories;
 using Disco.Shared.Mongo;
@@ -16,9 +17,12 @@ public static class Extensions
             .AddMongo<BarcodeDocument,Guid>(configuration)
             .AddRabbitMQ(configuration)
             .AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies())
-            .AddSingleton<IBarcodeRepository,BarcodeRepository>();
+            .AddSingleton<IBarcodeRepository,BarcodeRepository>()
+            .AddSingleton<CustomMiddleware>();
+    
     
     public static IApplicationBuilder UseInfrastructure(this IApplicationBuilder app)
         => app
-            .UseRabbitMQ();
+            .UseRabbitMQ()
+            .UseMiddleware<CustomMiddleware>();
 }

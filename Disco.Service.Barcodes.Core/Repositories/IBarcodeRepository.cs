@@ -7,4 +7,5 @@ public interface IBarcodeRepository
     Task<Barcode> GetAsync(Guid id);
     Task<Barcode> GetByUserIdAsync(Guid id);
     Task<Barcode> GetByCodeAsync(long id);
+    Task SaveBarCode(Barcode barcode);
 }

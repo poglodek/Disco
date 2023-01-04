@@ -1,5 +1,7 @@
 using Disco.Service.Barcodes.Application;
+using Disco.Service.Barcodes.Application.Events;
 using Disco.Service.Barcodes.Infrastructure;
+using MediatR;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +13,7 @@ builder.Services.AddSwaggerGen();
 builder.Services
     .AddApplication(builder.Configuration)
     .AddInfrastructure(builder.Configuration);
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -25,6 +28,10 @@ app.UseInfrastructure();
 
 app.UseAuthorization();
 
-app.MapControllers();
+app.MapGet("GetUserId/{id:long}", async (long id, IMediator mediator) =>
+{
+    var user = await mediator.Send(new GetUserIdByBarCode(id));
+    return Results.Ok(user);
+});
 
 await app.RunAsync();
