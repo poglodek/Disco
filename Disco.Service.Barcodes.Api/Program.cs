@@ -41,3 +41,4 @@ app.MapGet("GetUsersBarcode/{id:Guid}", async (Guid id, IMediator mediator) =>
 }).RequireAuthorization();
 
 await app.RunAsync();
+public partial class Program {}

@@ -18,7 +18,7 @@ public class JsonWebTokenManager : IJsonWebTokenManager
         _signingCredentials = new SigningCredentials(key.Key, SecurityAlgorithms.HmacSha256);
     }
 
-    public JWTokenDto CreateToken(Guid userId, string email, IDictionary<string,string> claims = null)
+    public JWTokenDto CreateToken(Guid userId, string email, IDictionary<string,string> claims = null, Roles role = Roles.ALL)
     {
         if (claims is null)
         {
@@ -38,6 +38,7 @@ public class JsonWebTokenManager : IJsonWebTokenManager
         
         jwtClaims.Add(new Claim(JwtRegisteredClaimNames.Email, email));
         jwtClaims.Add(new Claim(JwtRegisteredClaimNames.UniqueName, userId.ToString()));
+        jwtClaims.Add(new Claim(ClaimTypes.Role, role.ToString()));
 
         var expires = DateTime.Now.AddHours(_options.ExpiresInHours);
 

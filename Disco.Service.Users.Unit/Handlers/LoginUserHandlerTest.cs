@@ -106,7 +106,7 @@ public class LoginUserHandlerTest
         var guid = Guid.NewGuid();
         _userRepository.GetAsyncByEmail(Arg.Any<string>()).Returns(ReturnUser(guid));
         _hasher.VerifyHashedPassword(Arg.Any<User>(), Arg.Any<string>(), Arg.Any<string>()).Returns(PasswordVerificationResult.Success);
-        _jsonWebTokenManager.CreateToken(guid, Arg.Any<string>()).Returns(new JWTokenDto
+        _jsonWebTokenManager.CreateToken(guid, Arg.Any<string>(),role:Roles.User).Returns(new JWTokenDto
         {
             UserId = guid,
             ExpiresInHours = 8,
@@ -126,7 +126,6 @@ public class LoginUserHandlerTest
         result.UserId.ShouldBe(guid);
         result.ExpiresInHours.ShouldBe(8);
         result.JWT.ShouldBe("token");
-
     }
     
     

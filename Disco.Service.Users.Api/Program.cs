@@ -45,16 +45,21 @@ void MapEndpoints(WebApplication webApplication)
         var user = await mediator.Send(new GetUserInformation(id));
         return Results.Ok(user);
     }).RequireAuthorization();
+    
     webApplication.MapPost("login", async (UserLoginRequest user, IMediator mediator) =>
     {
         var token = await mediator.Send(user);
         return Results.Ok(token);
     });
+    
     webApplication.MapDelete("delete/{id:guid}", async (Guid id, IMediator mediator) =>
     {
         await mediator.Send(new DeleteUser(id));
         return Results.Ok();
-    }).RequireAuthorization();
+    }).RequireAuthorization(x =>
+    {
+        x.RequireRole("Admin");
+    });
     
 }
 // ReSharper disable once UnusedType.Global

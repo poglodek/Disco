@@ -43,7 +43,7 @@ public class UserLoginHandler : IRequestHandler<UserLoginRequest, JWTokenDto>
         }
         
         
-        return _manager.CreateToken(user.Id.Value, user.Email);
+        return _manager.CreateToken(user.Id.Value, user.Email, role: Roles.User);
         
     }
 }
