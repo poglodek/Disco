@@ -56,7 +56,7 @@ public class Barcode: AggregateRoot
     
     private static long GenerateNewCode()
     {
-        var code = string.Join("", Guid.NewGuid().ToByteArray()).Substring(0,18);
+        var code = string.Join("", Guid.NewGuid().ToByteArray()).AsSpan(0,18);
         return long.Parse(code);
     }
 }

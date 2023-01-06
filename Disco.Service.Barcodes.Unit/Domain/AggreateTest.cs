@@ -119,5 +119,11 @@ public class AggreateTest
         
         id.Equals(new object()).ShouldBeFalse();
     }
+    [Fact]
+    public void TODO()
+    {
+       //TODO: Create a integration tests
+       throw new Exception("TEST!!!");
+    }
     
 }
