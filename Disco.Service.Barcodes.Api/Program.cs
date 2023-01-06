@@ -28,9 +28,15 @@ app.UseInfrastructure();
 
 app.UseAuthorization();
 
-app.MapGet("GetUserId/{id:long}", async (long id, IMediator mediator) =>
+app.MapGet("GetUserIdByBarcode/{id:long}", async (long id, IMediator mediator) =>
 {
     var user = await mediator.Send(new GetUserIdByBarCode(id));
+    return Results.Ok(user);
+});
+
+app.MapGet("GetUsersBarcode/{id:Guid}", async (Guid id, IMediator mediator) =>
+{
+    var user = await mediator.Send(new GetUsersBarcode(id));
     return Results.Ok(user);
 });
 

@@ -4,3 +4,4 @@ using MediatR;
 namespace Disco.Service.Barcodes.Application.Dto;
 
 public record UserIdDto(Guid Id);
+public record UsersBarcodeDto(long Barcode);
