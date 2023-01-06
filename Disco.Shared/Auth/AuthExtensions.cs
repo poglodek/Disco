@@ -17,17 +17,10 @@ public static class AuthExtensions
         var key = ReturnSecurityKeyFromConfiguration(options);
 
         serviceCollection.AddSingleton(_ => options);
-        serviceCollection.AddAuthorization(x =>
-        {
-            x.AddPolicy("certificate", p =>
-            {
-                p.AddAuthenticationSchemes(CertificateAuthenticationDefaults.AuthenticationScheme)
-                    .RequireAuthenticatedUser();
-            });
-        });
         
         serviceCollection.AddAuthentication(authenticationOptions =>
         {
+            authenticationOptions.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
             authenticationOptions.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
             authenticationOptions.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
         })

@@ -1,5 +1,6 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using Microsoft.IdentityModel.Tokens;
 using JwtRegisteredClaimNames = Microsoft.IdentityModel.JsonWebTokens.JwtRegisteredClaimNames;
 
@@ -14,7 +15,7 @@ public class JsonWebTokenManager : IJsonWebTokenManager
     public JsonWebTokenManager(AuthOptions options, AuthExtensions.SecurityKeyCert key)
     {
         _options = options;
-        _signingCredentials = new SigningCredentials(key.Key, SecurityAlgorithms.RsaSha256);
+        _signingCredentials = new SigningCredentials(key.Key, SecurityAlgorithms.HmacSha256);
     }
 
     public JWTokenDto CreateToken(Guid userId, string email, IDictionary<string,string> claims = null)
@@ -41,6 +42,7 @@ public class JsonWebTokenManager : IJsonWebTokenManager
         var expires = DateTime.Now.AddHours(_options.ExpiresInHours);
 
         var jwt = new JwtSecurityToken(_options.JwtIssuer, 
+            _options.JwtIssuer,
             claims: jwtClaims, 
             notBefore: DateTime.Now,
             expires: expires,

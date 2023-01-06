@@ -27,13 +27,11 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-MapEndpoints(app);
-
 app.UseInfrastructure();
 
 app.UseAuthorization();
 
-app.MapControllers();
+MapEndpoints(app);
 
 await app.RunAsync();
 
@@ -41,12 +39,12 @@ await app.RunAsync();
 void MapEndpoints(WebApplication webApplication)
 {
     webApplication.MapPost("AddUser", async (AddUser request, IMediator mediator) => { await mediator.Send(request); });
-    webApplication.MapPut("VerifyUser", async (VerifyUser request, IMediator mediator) => { await mediator.Send(request); });
+    webApplication.MapPut("VerifyUser", async (VerifyUser request, IMediator mediator) => { await mediator.Send(request); }).RequireAuthorization();
     webApplication.MapGet("Get/{id:guid}", async (Guid id, IMediator mediator) =>
     {
         var user = await mediator.Send(new GetUserInformation(id));
         return Results.Ok(user);
-    });
+    }).RequireAuthorization();
     webApplication.MapPost("login", async (UserLoginRequest user, IMediator mediator) =>
     {
         var token = await mediator.Send(user);
@@ -56,7 +54,7 @@ void MapEndpoints(WebApplication webApplication)
     {
         await mediator.Send(new DeleteUser(id));
         return Results.Ok();
-    });
+    }).RequireAuthorization();
     
 }
 // ReSharper disable once UnusedType.Global

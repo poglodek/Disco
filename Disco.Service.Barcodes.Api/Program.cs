@@ -32,12 +32,12 @@ app.MapGet("GetUserIdByBarcode/{id:long}", async (long id, IMediator mediator) =
 {
     var user = await mediator.Send(new GetUserIdByBarCode(id));
     return Results.Ok(user);
-});
+}).RequireAuthorization();
 
 app.MapGet("GetUsersBarcode/{id:Guid}", async (Guid id, IMediator mediator) =>
 {
     var user = await mediator.Send(new GetUsersBarcode(id));
     return Results.Ok(user);
-});
+}).RequireAuthorization();
 
 await app.RunAsync();
