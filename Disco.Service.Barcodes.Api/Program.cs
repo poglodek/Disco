@@ -1,6 +1,7 @@
 using Disco.Service.Barcodes.Application;
 using Disco.Service.Barcodes.Application.Events;
 using Disco.Service.Barcodes.Infrastructure;
+using Disco.Shared.Auth;
 using MediatR;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -38,7 +39,10 @@ app.MapGet("GetUsersBarcode/{id:Guid}", async (Guid id, IMediator mediator) =>
 {
     var user = await mediator.Send(new GetUsersBarcode(id));
     return Results.Ok(user);
-}).RequireAuthorization();
+}).RequireAuthorization(x =>
+{
+    x.RequireRole(Roles.Company.ToString());
+});
 
 await app.RunAsync();
 public partial class Program {}
