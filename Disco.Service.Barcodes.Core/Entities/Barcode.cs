@@ -44,7 +44,7 @@ public class Barcode: AggregateRoot
         }
         
         var barcode = new Barcode(id, userId, code);
-        barcode.AddEvent(new BarcodeCreated(barcode.Id.Value));
+        barcode.AddEvent(new BarcodeCreated(barcode.UserId.Value));
 
         return barcode;
     }

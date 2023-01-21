@@ -25,8 +25,8 @@ public static class OutboxExtensions
         service.AddSingleton<IInboxRepository, InboxRepository>();
         service.AddSingleton<IOutboxRepository, OutboxRepository>();
         
-        service.AddScoped<IEventProcessor, EventProcessor>();
-
+        service.AddTransient<IEventProcessor, EventProcessor>();
+        
         service.AddHostedService<BackgroundPublisherService>();
         service.AddHostedService<BackgroundProcessService>();
         

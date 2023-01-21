@@ -4,10 +4,10 @@ namespace Disco.Service.Barcodes.Core.Events;
 
 public class BarcodeCreated : IDomainEvent 
 {
-    public Guid BarcodeId { get; }
+    public Guid UserId { get; }
 
-    public BarcodeCreated(Guid barcodeId)
+    public BarcodeCreated(Guid userId)
     {
-        BarcodeId = barcodeId;
+        UserId = userId;
     }
 }

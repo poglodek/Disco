@@ -8,7 +8,13 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="MediatR" Version="11.1.0" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Disco.Service.Points.Application\Disco.Service.Points.Application.csproj" />
+      <ProjectReference Include="..\Disco.Service.Points.Infrastructure\Disco.Service.Points.Infrastructure.csproj" />
     </ItemGroup>
 
 </Project>

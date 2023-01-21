@@ -12,7 +12,7 @@ internal sealed class EventProcessor : IEventProcessor
     private readonly IOutboxRepository _repository;
     private readonly ILogger<EventProcessor> _logger;
 
-    public EventProcessor(IOutboxRepository repository,ILogger<EventProcessor> logger)
+    public EventProcessor(IOutboxRepository repository, ILogger<EventProcessor> logger)
     {
         _repository = repository;
         _logger = logger;

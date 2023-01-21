@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using ZstdSharp.Unsafe;
 
 namespace Disco.Shared.Rabbit.OutboxPattern.BackgroundServices;
 
@@ -63,11 +64,20 @@ public class BackgroundProcessService : BackgroundService
                     await _repository.SaveError(@event.Id, $"Cannot deseralize an object with name {key} and body {@event.Obj}");
                     continue;
                 }
+
+                try
+                {
+                    await _mediator.Publish(obj, stoppingToken);
+                    
+                    await _repository.ProcessSuccessfully(@event.Id);
                 
-                await _mediator.Publish(obj, stoppingToken);
-                await _repository.ProcessSuccessfully(@event.Id);
-                
-                _logger.LogInformation($"Process success an event with name {key}");
+                    _logger.LogInformation($"Process success an event with name {key}");
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    throw;
+                }
             }
         }
     }

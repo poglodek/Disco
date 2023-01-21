@@ -6,4 +6,14 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Disco.Service.Points.Application\Disco.Service.Points.Application.csproj" />
+      <ProjectReference Include="..\Disco.Service.Points.Core\Disco.Service.Points.Core.csproj" />
+      <ProjectReference Include="..\Disco.Shared\Disco.Shared.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="AutoMapper" Version="12.0.0" />
+    </ItemGroup>
+
 </Project>
