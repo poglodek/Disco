@@ -56,7 +56,8 @@ public class JsonWebTokenManager : IJsonWebTokenManager
         {
             JWT = token,
             ExpiresInHours = _options.ExpiresInHours,
-            UserId = userId
+            UserId = userId,
+            Role = role.ToString()
         };
 
     }

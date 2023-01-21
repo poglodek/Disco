@@ -1,3 +1,3 @@
 namespace Disco.Service.Users.Core.ValueObjects;
 
-public record struct Role(string Value);
+public record struct Role(string Value = "User");
