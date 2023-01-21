@@ -38,7 +38,7 @@ public class AddUserHandler : IRequestHandler<AddUser,Unit>
             throw new UserEmailExistException(request.Email);
         }
         
-        var user =  User.Create(new AggregateId(), request.Email, request.Nick, false, DateTime.Now);
+        var user =  User.Create(new AggregateId(), request.Email, request.Nick, false, DateTime.Now, role:"User");
 
         var hash = _hasher.HashPassword(user, request.Password);
         

@@ -1,6 +1,7 @@
 using Disco.Service.Users.Core.Events;
 using Disco.Service.Users.Core.Exceptions;
 using Disco.Service.Users.Core.ValueObjects;
+using Disco.Shared.Auth;
 using Disco.Shared.Mongo;
 
 namespace Disco.Service.Users.Core.Entities;
@@ -14,9 +15,11 @@ public sealed class User : AggregateRoot
     public Verified Verified { get; private set; }
     public IsDeleted IsDeleted { get; private set; }
     public CreatedDate CreatedDate { get; private set; }
+    public Role Role { get; private set; }
 
 
-    public User(AggregateId id, string email,string nick ,bool verified, DateTime createdDate, bool isDeleted = false)
+    public User(AggregateId id, string email, string nick, bool verified, DateTime createdDate, bool isDeleted = false,
+        string role = "User")
     {
         Id = id;
         Nick = nick;
@@ -24,6 +27,7 @@ public sealed class User : AggregateRoot
         Verified = verified;
         CreatedDate = createdDate;
         IsDeleted = isDeleted;
+        Role = new Role(role);
     }
     
     public void SetNewPasswordHash(string passwordHash, string? password = null)
@@ -40,9 +44,9 @@ public sealed class User : AggregateRoot
     
 
     
-    public static User Create(AggregateId id, string email,string nick ,bool verify, DateTime createdDate, bool isDeleted = false)
+    public static User Create(AggregateId id, string email,string nick ,bool verify, DateTime createdDate, bool isDeleted = false, string role = "User")
     {
-        var user = new User(id, email,  nick,verify,createdDate,isDeleted);
+        var user = new User(id, email,  nick,verify,createdDate,isDeleted,role);
         user.AddEvent(new UserCreated(user.Id.Value));
         return user;
     }

@@ -41,9 +41,10 @@ public class UserLoginHandler : IRequestHandler<UserLoginRequest, JWTokenDto>
         {
             throw new NotValidUserEmailAndPasswordException(request.Email);
         }
+
+        var role = Enum.Parse<Roles>(user.Role.Value);
         
-        
-        return _manager.CreateToken(user.Id.Value, user.Email, role: Roles.User);
+        return _manager.CreateToken(user.Id.Value, user.Email, role: role);
         
     }
 }

@@ -38,6 +38,13 @@ app.MapGet("GetPointsByUserId/{id:Guid}", async (Guid id, IMediator mediator) =>
     
 }).RequireAuthorization();
 
+app.MapPut("AddPoints", async (Guid id, IMediator mediator) =>
+{
+    var points = await mediator.Send(new GetPointsByUserId(id));
+    return Results.Ok(points);
+    
+}).RequireAuthorization(x=>x.RequireRole("Admin","App"));
+
 
 await app.RunAsync();
 public partial class Program {}
