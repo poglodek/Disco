@@ -7,6 +7,7 @@ using Disco.Shared.Rabbit.OutboxPattern.Repository.Outbox;
 using Disco.Shared.Rabbit.OutboxPattern.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 namespace Disco.Shared.Rabbit.OutboxPattern;
 
@@ -16,8 +17,6 @@ public static class OutboxExtensions
     {
         var options = configuration.GetSection("outbox").Get<OutboxOptions>();
         service.AddSingleton(_ => options);
-        
-        
         
         service.AddMongo<Outbox, Guid>(configuration);
         service.AddMongo<Inbox, Guid>(configuration);
@@ -29,6 +28,9 @@ public static class OutboxExtensions
         
         service.AddHostedService<BackgroundPublisherService>();
         service.AddHostedService<BackgroundProcessService>();
+        
+        service.Configure<HostOptions>(opts => 
+            opts.BackgroundServiceExceptionBehavior = BackgroundServiceExceptionBehavior.Ignore);
         
         return service;
     }

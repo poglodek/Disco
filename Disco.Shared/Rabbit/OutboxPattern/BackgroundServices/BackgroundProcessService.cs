@@ -65,19 +65,12 @@ public class BackgroundProcessService : BackgroundService
                     continue;
                 }
 
-                try
-                {
-                    await _mediator.Publish(obj, stoppingToken);
+                await _mediator.Publish(obj, stoppingToken);
                     
-                    await _repository.ProcessSuccessfully(@event.Id);
+                await _repository.ProcessSuccessfully(@event.Id);
                 
-                    _logger.LogInformation($"Process success an event with name {key}");
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e);
-                    throw;
-                }
+                _logger.LogInformation($"Process success an event with name {key}");
+                
             }
         }
     }
