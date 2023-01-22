@@ -26,24 +26,25 @@ if (app.Environment.IsDevelopment())
 app.UseAuthentication();
 
 app.UseInfrastructure();
-app.UseHttpsRedirection();
 
 
 app.UseAuthorization();
 
 app.MapGet("GetPointsByUserId/{id:Guid}", async (Guid id, IMediator mediator) =>
 {
+    //TODO: napisać Testy do tego!!!!
     var points = await mediator.Send(new GetPointsByUserId(id));
     return Results.Ok(points);
     
 }).RequireAuthorization();
 
-app.MapPut("AddPoints", async (Guid id, IMediator mediator) =>
-{
-    var points = await mediator.Send(new GetPointsByUserId(id));
-    return Results.Ok(points);
-    
-}).RequireAuthorization(x=>x.RequireRole("Admin","App"));
+// app.MapPut("AddPoints", async (Guid id, IMediator mediator) =>
+// {
+//     //TODO: zrobić!
+//     var points = await mediator.Send(new GetPointsByUserId(id));
+//     return Results.Ok(points);
+//     
+// }).RequireAuthorization(x=>x.RequireRole("Admin","App"));
 
 
 await app.RunAsync();

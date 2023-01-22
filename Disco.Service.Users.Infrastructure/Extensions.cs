@@ -3,6 +3,7 @@ using Disco.Service.Users.Core.Repositories;
 using Disco.Service.Users.Infrastructure.Middleware;
 using Disco.Service.Users.Infrastructure.Mongo.Documents;
 using Disco.Service.Users.Infrastructure.Mongo.Repositories;
+using Disco.Shared.Consul;
 using Disco.Shared.Mongo;
 using Disco.Shared.Rabbit;
 using Microsoft.AspNetCore.Builder;
@@ -19,10 +20,12 @@ public static class Extensions
             .AddRabbitMQ(configuration)
             .AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies())
             .AddSingleton<IUserRepository,UserRepository>()
-            .AddScoped<CustomMiddleware>();
+            .AddScoped<CustomMiddleware>()
+            .AddConsul(configuration);
     
     public static IApplicationBuilder UseInfrastructure(this IApplicationBuilder app)
         => app
             .UseMiddleware<CustomMiddleware>()
-            .UseRabbitMQ();
+            .UseRabbitMQ()
+            .UseConsul();
 }
