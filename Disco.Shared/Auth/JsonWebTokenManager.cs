@@ -18,7 +18,7 @@ public class JsonWebTokenManager : IJsonWebTokenManager
         _signingCredentials = new SigningCredentials(key.Key, SecurityAlgorithms.HmacSha256);
     }
 
-    public JWTokenDto CreateToken(Guid userId, string email, IDictionary<string,string> claims = null, Roles role = Roles.ALL)
+    public JWTokenDto CreateToken(Guid userId, string email, IDictionary<string,string> claims = null, Roles role = Roles.All)
     {
         if (claims is null)
         {

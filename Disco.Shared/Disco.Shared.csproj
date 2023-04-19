@@ -7,7 +7,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Fabio" />
       <Folder Include="Logger" />
       <Folder Include="Redis" />
       <Folder Include="Tests" />

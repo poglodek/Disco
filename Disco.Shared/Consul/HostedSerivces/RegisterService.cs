@@ -35,9 +35,6 @@ public class RegisterService : IHostedService
 
        _logger.LogError($"Couldn't register service in Consul {model.Name}:{model.Id}");
        _logger.LogError(await response.Content.ReadAsStringAsync());
-       
-
-
 
     }
 

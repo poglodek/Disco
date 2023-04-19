@@ -58,8 +58,7 @@ void MapEndpoints(WebApplication webApplication)
     {
         x.RequireRole("Admin");
     });
-
-    webApplication.MapGet("", () => "ok");
+    
 }
 // ReSharper disable once UnusedType.Global
 public partial class Program{}

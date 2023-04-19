@@ -11,7 +11,7 @@ public class ConsulHttpClient
     public ConsulHttpClient(System.Net.Http.HttpClient httpClient)
     {
         _httpClient = httpClient;
-        }
+    }
 
     public Task<HttpResponseMessage> Register(ConsulRegistrationModel model)
         => _httpClient.PutAsync("agent/service/register", GetPayload(model));

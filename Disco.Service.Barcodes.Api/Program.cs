@@ -41,7 +41,7 @@ app.MapGet("GetUsersBarcode/{id:Guid}", async (Guid id, IMediator mediator) =>
     return Results.Ok(user);
 }).RequireAuthorization(x =>
 {
-    x.RequireRole(Roles.Company.ToString());
+    x.RequireRole(Roles.Company.ToString(),Roles.Admin.ToString(),Roles.App.ToString());
 });
 
 await app.RunAsync();

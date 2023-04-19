@@ -3,6 +3,7 @@ using Disco.Shared.Consul.HostedSerivces;
 using Disco.Shared.Consul.HttpClient;
 using Disco.Shared.Consul.Options;
 using Disco.Shared.Consul.Services;
+using Disco.Shared.Fabio;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
@@ -29,6 +30,8 @@ public static class ConsulExtensions
         
         serviceCollection.AddSingleton<RegisterService>();
         serviceCollection.AddHostedService<RegisterService>();
+
+        serviceCollection.AddFabio(configuration);
         
         return serviceCollection;
     }
