@@ -29,7 +29,11 @@ services:
       - 8500:8500
 
   fabio:
+    depends_on:
+      - consul
     image: fabiolb/fabio
+    links:
+      - consul:consul
     container_name: fabio
     restart: unless-stopped
     environment:
@@ -39,6 +43,8 @@ services:
     ports:
     - 9998:9998
     - 9999:9999
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
   vault:
     image: vault

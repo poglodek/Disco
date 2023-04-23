@@ -20,8 +20,4 @@
       <ProjectReference Include="..\Disco.Shared\Disco.Shared.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Commands\Handlers" />
-    </ItemGroup>
-
 </Project>

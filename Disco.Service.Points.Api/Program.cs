@@ -38,13 +38,13 @@ app.MapGet("GetPointsByUserId/{id:Guid}", async (Guid id, IMediator mediator) =>
     
 }).RequireAuthorization();
 
-// app.MapPut("AddPoints", async (Guid id, IMediator mediator) =>
-// {
-//     //TODO: zrobić!
-//     var points = await mediator.Send(new GetPointsByUserId(id));
-//     return Results.Ok(points);
-//     
-// }).RequireAuthorization(x=>x.RequireRole("Admin","App"));
+app.MapPut("AddPoints", async (AddPoints request, IMediator mediator) =>
+{
+    //TODO: Testy
+    var points = await mediator.Send(request);
+    return Results.Ok(points);
+    
+}).RequireAuthorization(x=>x.RequireRole("Admin","App"));
 
 
 await app.RunAsync();
