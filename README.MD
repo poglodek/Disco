@@ -74,5 +74,5 @@ The Disco.Shared project contains shared code for MongoDB, RabbitMQ, Consul, Fab
 
 ### Docker
 
-The Disco project also includes a docker-compose.yml file, which can be used to run the required Docker infrastructure, including MongoDB, RabbitMQ, Consul, Fabio, and the Disco.Shared project. Simply navigate to the root directory of the project and run docker-compose up to start the infrastructure.
+The Disco project also includes a docker-compose.yml file, which can be used to run the required Docker infrastructure, including MongoDB, RabbitMQ, Consul, Fabio. Simply navigate to the root directory of the project and run `docker-compose up` to start the infrastructure.
 
