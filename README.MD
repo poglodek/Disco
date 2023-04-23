@@ -14,7 +14,7 @@ The Barcodes microservice is structured as follows:
 - `Barcodes.Application`: contains the application layer for the Barcodes microservice.
 - `Barcodes.Core`: contains the core domain logic for the Barcodes microservice.
 - `Barcodes.Infrastructure`: contains the infrastructure layer for the Barcodes microservice, including implementations for external dependencies.
-- `Barcodes.Domain`: contains tests for domain logic for the Barcodes microservice.
+- `Barcodes.Unit`: contains tests for domain logic for the Barcodes microservice.
 - `Barcodes.IntegrationTests`: contains integration tests for the Barcodes microservice.
 
 ### Companies
@@ -25,7 +25,7 @@ The Companies microservice is structured as follows:
 - `Companies.Application`: contains the application layer for the Companies microservice.
 - `Companies.Core`: contains the core domain logic for the Companies microservice.
 - `Companies.Infrastructure`: contains the infrastructure layer for the Companies microservice, including implementations for external dependencies.
-- `Companies.Domain`: contains tests for domain logic for the Companies microservice.
+- `Companies.Unit`: contains tests for domain logic for the Companies microservice.
 - `Companies.IntegrationTests`: contains integration tests for the Companies microservice.
 
 ### Discounts
@@ -36,7 +36,7 @@ The Discounts microservice is structured as follows:
 - `Discounts.Application`: contains the application layer for the Discounts microservice.
 - `Discounts.Core`: contains the core domain logic for the Discounts microservice.
 - `Discounts.Infrastructure`: contains the infrastructure layer for the Discounts microservice, including implementations for external dependencies.
-- `Discounts.Domain`: contains tests for domain logic for the Discounts microservice.
+- `Discounts.Unit`: contains tests for domain logic for the Discounts microservice.
 - `Discounts.IntegrationTests`: contains integration tests for the Discounts microservice.
 
 ### Points
@@ -47,7 +47,7 @@ The Points microservice is structured as follows:
 - `Points.Application`: contains the application layer for the Points microservice.
 - `Points.Core`: contains the core domain logic for the Points microservice.
 - `Points.Infrastructure`: contains the infrastructure layer for the Points microservice, including implementations for external dependencies.
-- `Points.Domain`: contains tests for domain logic for the Points microservice.
+- `Points.Unit`: contains tests for domain logic for the Points microservice.
 - `Points.IntegrationTests`: contains integration tests for the Points microservice.
 
 ### Users
@@ -58,7 +58,7 @@ The Users microservice is structured as follows:
 - `Users.Application`: contains the application layer for the Users microservice.
 - `Users.Core`: contains the core domain logic for the Users microservice.
 - `Users.Infrastructure`: contains the infrastructure layer for the Users microservice, including implementations for external dependencies.
-- `Users.Domain`: contains tests for domain logic for the Users microservice.
+- `Users.Unit`: contains tests for domain logic for the Users microservice.
 - `Users.IntegrationTests`: contains integration tests for the Users microservice.
 
 ## Disco.Shared
