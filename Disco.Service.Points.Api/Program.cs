@@ -41,8 +41,16 @@ app.MapGet("GetPointsByUserId/{id:Guid}", async (Guid id, IMediator mediator) =>
 app.MapPut("AddPoints", async (AddPoints request, IMediator mediator) =>
 {
     //TODO: Testy
-    var points = await mediator.Send(request);
-    return Results.Ok(points);
+    await mediator.Send(request);
+    return Results.Ok();
+    
+}).RequireAuthorization(x=>x.RequireRole("Admin","App"));
+
+app.MapPut("SubtractPoints", async (SubtractPoints request, IMediator mediator) =>
+{
+    //TODO: Testy
+    await mediator.Send(request);
+    return Results.Ok();
     
 }).RequireAuthorization(x=>x.RequireRole("Admin","App"));
 
