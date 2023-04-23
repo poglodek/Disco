@@ -34,4 +34,11 @@ internal class PointsRepository : IPointsRepository
         var obj = _mapper.Map<PointsDocument>(resource);
         return _repository.AddAsync(obj);
     }
+
+    public async Task<Core.Entities.Points> GetByIdAsync(Guid id)
+    {
+        var obj = await _repository.GetAsync(x=>x.Id == id);
+
+        return _mapper.Map<Core.Entities.Points>(obj);
+    }
 }
