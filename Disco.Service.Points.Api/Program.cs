@@ -32,7 +32,6 @@ app.UseAuthorization();
 
 app.MapGet("GetPointsByUserId/{id:Guid}", async (Guid id, IMediator mediator) =>
 {
-    //TODO: napisać Testy do tego!!!!
     var points = await mediator.Send(new GetPointsByUserId(id));
     return Results.Ok(points);
     
