@@ -11,8 +11,6 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddAuthorization();
 
-
-
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -28,7 +26,30 @@ app.UseInfrastructure();
 
 app.UseAuthorization();
 
+//TODO:Creating new 
+app.MapPost("AddDiscount",()=>
+{
 
+    return Results.Ok();
+}).RequireAuthorization("Company");;
+
+//TODO:Get discounts
+app.MapGet("GetDiscounts", () =>
+{
+    return Results.Ok();
+});
+
+//TODO:Removing points from account  and return a code with discount 
+app.MapPost("UseDiscounts/", () =>
+{
+    return Results.Ok();
+});
+
+//TODO:removing discount
+app.MapDelete("DeleteDiscount/{id:Guid}", () =>
+{
+    return Results.Ok();
+}).RequireAuthorization("Company");
 
 
 await app.RunAsync();
