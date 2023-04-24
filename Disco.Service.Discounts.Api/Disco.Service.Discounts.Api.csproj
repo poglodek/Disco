@@ -11,4 +11,9 @@
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Disco.Service.Discounts.Application\Disco.Service.Discounts.Application.csproj" />
+      <ProjectReference Include="..\Disco.Service.Discounts.Infrastructure\Disco.Service.Discounts.Infrastructure.csproj" />
+    </ItemGroup>
+
 </Project>
