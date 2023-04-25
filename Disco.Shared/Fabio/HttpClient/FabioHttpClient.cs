@@ -24,6 +24,12 @@ public class FabioHttpClient : IFabioHttpClient
     public Task<HttpResponseMessage> PatchAsync(string url, object content, CancellationToken ct = default)
         => _httpClient.PatchAsync(url, GetStringContent(content), ct);
 
+    public Task<HttpResponseMessage> PutAsync(string url, object content, CancellationToken ct = default)
+        => _httpClient.PutAsync(url, GetStringContent(content), ct);
+
+    public Task<HttpResponseMessage> PutAsync(string url, StringContent content, CancellationToken ct = default)
+        => _httpClient.PutAsync(url, content, ct);
+
     public Task<HttpResponseMessage> PostAsync(string url, object content, CancellationToken ct = default)
         => _httpClient.PostAsync(url, GetStringContent(content), ct);
 

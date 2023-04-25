@@ -1,7 +1,9 @@
+using Disco.Service.Discounts.Application.Services;
 using Disco.Service.Discounts.Core.Repositories;
 using Disco.Service.Discounts.Infrastructure.Middleware;
 using Disco.Service.Discounts.Infrastructure.Mongo.Documents;
 using Disco.Service.Discounts.Infrastructure.Mongo.Repositories;
+using Disco.Service.Discounts.Infrastructure.Services;
 using Disco.Shared.Consul;
 using Disco.Shared.Mongo;
 using Disco.Shared.Rabbit;
@@ -18,6 +20,8 @@ public static class Extensions
             .AddMongo<DiscountDocument,Guid>(configuration)
             .AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies())
             .AddSingleton<IDiscountRepository,DiscountRepository>()
+            .AddSingleton<IBarcodeService,BarcodeService>()
+            .AddSingleton<IPointsService,PointsService>()
             .AddRabbitMQ(configuration)
             .AddScoped<CustomMiddleware>()
             .AddConsul(configuration);
