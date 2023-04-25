@@ -1,6 +1,7 @@
 using Disco.Service.Discounts.Application;
 using Disco.Service.Discounts.Application.Commands;
 using Disco.Service.Discounts.Infrastructure;
+using Disco.Service.Discounts.Infrastructure.Query;
 using MediatR;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -31,22 +32,24 @@ app.UseAuthorization();
 //TODO:TESTS
 app.MapPost("AddDiscount", async (AddDiscount add,IMediator mediator)=>
 {
-    await mediator.Publish(add);
+    await mediator.Send(add);
     
     return Results.Ok();
+    
 }).RequireAuthorization("Company");;
 
-//TODO:Get discounts
-app.MapGet("GetDiscounts", () =>
-{
-    return Results.Ok();
-});
+//TODO: TESTS
+app.MapGet("GetDiscounts", async (IMediator mediator) => Results.Ok( await mediator.Send(new GetDiscounts())));
 
-//TODO:Removing points from account  and return a code with discount 
-app.MapPost("UseDiscounts/", () =>
+//TODO: Removing points from account  and return a code with discount 
+app.MapPost("UseDiscounts/", async (UseDiscounts discount, IMediator mediator) =>
 {
+    await mediator.Publish(discount);
+    
     return Results.Ok();
-});
+}).RequireAuthorization("User","Admin");
+
+
 
 //TODO:removing discount
 app.MapDelete("DeleteDiscount/{id:Guid}", () =>
