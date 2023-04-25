@@ -20,6 +20,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Disco.Service.Discounts.Core\Disco.Service.Discounts.Core.csproj" />
       <ProjectReference Include="..\Disco.Shared\Disco.Shared.csproj" />
     </ItemGroup>
 
