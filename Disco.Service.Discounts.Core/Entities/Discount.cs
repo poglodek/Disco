@@ -11,8 +11,10 @@ public class Discount : AggregateRoot
     public ValueObjects.Points Points { get; private set; }
     public StartedDate StartedDate { get; private set; }
     public EndingDate EndingDate { get; private set; }
+    
+    public Name Name { get; private set; }
 
-    public Discount(Guid id,Guid company, int percent, int points ,DateOnly startedDate, DateOnly endingDate)
+    public Discount(Guid id,Guid company, int percent, int points ,DateOnly startedDate, DateOnly endingDate, string name)
     {
         if (company == Guid.Empty)
         {
@@ -33,6 +35,11 @@ public class Discount : AggregateRoot
         {
             throw new InvalidDatesException(startedDate, endingDate);
         }
+
+        if (string.IsNullOrWhiteSpace(name))
+        {
+            throw new InvalidNameException(name);
+        }
         
         Id = new AggregateId(id);
         Company = new CompanyId(company);
@@ -40,11 +47,13 @@ public class Discount : AggregateRoot
         StartedDate = new StartedDate(startedDate);
         EndingDate = new EndingDate(endingDate);
         Points = new ValueObjects.Points(points);
+        Name = new Name(name);
+
     }
     
-    public static Discount Create(Guid id,Guid company, int percent, int points ,DateOnly startedDate, DateOnly endingDate)
+    public static Discount Create(Guid id,Guid company, int percent, int points ,DateOnly startedDate, DateOnly endingDate, string name)
     {
-        var point = new Discount(id,company, percent,points,startedDate,endingDate);
+        var point = new Discount(id,company, percent,points,startedDate,endingDate, name);
         
         point.AddEvent(new DiscountCreated(id));
         

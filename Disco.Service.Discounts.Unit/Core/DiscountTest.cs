@@ -14,7 +14,7 @@ public class DiscountTest
     public void CreateDiscount_InvalidId_ThrowException()
     {
 
-        var ex =  Record.Exception(() => Discount.Create(Guid.Empty, Guid.NewGuid(), 5, 10, Now, Now));
+        var ex =  Record.Exception(() => Discount.Create(Guid.Empty, Guid.NewGuid(), 5, 10, Now, Now,"Super name"));
         
         ex.ShouldNotBeNull();
         ex.ShouldBeOfType<InvalidAggregateIdException>();
@@ -26,7 +26,7 @@ public class DiscountTest
     public void CreateDiscount_InvalidCompanyId_ThrowException()
     {
 
-        var ex =  Record.Exception(() => Discount.Create(Guid.NewGuid(), Guid.Empty, 5, 10, Now, Now));
+        var ex =  Record.Exception(() => Discount.Create(Guid.NewGuid(), Guid.Empty, 5, 10, Now, Now,"Super name"));
         
         ex.ShouldNotBeNull();
         ex.ShouldBeOfType<InvalidCompanyIdException>();
@@ -38,7 +38,7 @@ public class DiscountTest
     public void CreateDiscount_PercentBelow0_ThrowException()
     {
 
-        var ex =  Record.Exception(() => Discount.Create(Guid.NewGuid(), Guid.NewGuid(), -5, 10, Now, Now));
+        var ex =  Record.Exception(() => Discount.Create(Guid.NewGuid(), Guid.NewGuid(), -5, 10, Now, Now,"Super name"));
         
         ex.ShouldNotBeNull();
         ex.ShouldBeOfType<InvalidPercentValueException>();
@@ -50,7 +50,7 @@ public class DiscountTest
     public void CreateDiscount_PercentAbove100_ThrowException()
     {
 
-        var ex =  Record.Exception(() => Discount.Create(Guid.NewGuid(), Guid.NewGuid(), 101, 10, Now, Now));
+        var ex =  Record.Exception(() => Discount.Create(Guid.NewGuid(), Guid.NewGuid(), 101, 10, Now, Now,"Super name"));
         
         ex.ShouldNotBeNull();
         ex.ShouldBeOfType<InvalidPercentValueException>();
@@ -62,7 +62,7 @@ public class DiscountTest
     public void CreateDiscount_PointsBelow0_ThrowException()
     {
 
-        var ex =  Record.Exception(() => Discount.Create(Guid.NewGuid(), Guid.NewGuid(), 10, -10, Now, Now));
+        var ex =  Record.Exception(() => Discount.Create(Guid.NewGuid(), Guid.NewGuid(), 10, -10, Now, Now,"Super name"));
         
         ex.ShouldNotBeNull();
         ex.ShouldBeOfType<InvalidPointsValueException>();
@@ -74,13 +74,39 @@ public class DiscountTest
     public void CreateDiscount_InvalidDate_ThrowException()
     {
 
-        var ex =  Record.Exception(() => Discount.Create(Guid.NewGuid(), Guid.NewGuid(), 10, 10, Now.AddDays(10), Now));
+        var ex =  Record.Exception(() => Discount.Create(Guid.NewGuid(), Guid.NewGuid(), 10, 10, Now.AddDays(10), Now,"Super name"));
         
         ex.ShouldNotBeNull();
         ex.ShouldBeOfType<InvalidDatesException>();
 
 
     }
+    
+    
+    [Fact]
+    public void CreateDiscount_InvalidName_ThrowException()
+    {
+
+        var ex =  Record.Exception(() => Discount.Create(Guid.NewGuid(), Guid.NewGuid(), 10, 10, Now, Now,"  "));
+        
+        ex.ShouldNotBeNull();
+        ex.ShouldBeOfType<InvalidNameException>();
+
+
+    }
+    
+    [Fact]
+    public void CreateDiscount_NullName_ThrowException()
+    {
+
+        var ex =  Record.Exception(() => Discount.Create(Guid.NewGuid(), Guid.NewGuid(), 10, 10, Now, Now,null));
+        
+        ex.ShouldNotBeNull();
+        ex.ShouldBeOfType<InvalidNameException>();
+
+
+    }
+    
     
     [Fact]
     public void CreateDiscount_CorrectValues_ReturnObject()
@@ -193,5 +219,5 @@ public class DiscountTest
     }
     
 
-    private Discount ReturnModel() => Discount.Create(Guid.NewGuid(), Guid.NewGuid(), 10, 10, Now, Now);
+    private Discount ReturnModel() => Discount.Create(Guid.NewGuid(), Guid.NewGuid(), 10, 10, Now, Now,"Super fancy name!");
 }

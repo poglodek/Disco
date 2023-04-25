@@ -23,4 +23,8 @@
       <ProjectReference Include="..\Disco.Shared\Disco.Shared.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Dto" />
+    </ItemGroup>
+
 </Project>

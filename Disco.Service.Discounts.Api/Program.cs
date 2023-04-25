@@ -1,5 +1,7 @@
 using Disco.Service.Discounts.Application;
+using Disco.Service.Discounts.Application.Commands;
 using Disco.Service.Discounts.Infrastructure;
+using MediatR;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,10 +28,11 @@ app.UseInfrastructure();
 
 app.UseAuthorization();
 
-//TODO:Creating new 
-app.MapPost("AddDiscount",()=>
+//TODO:TESTS
+app.MapPost("AddDiscount", async (AddDiscount add,IMediator mediator)=>
 {
-
+    await mediator.Publish(add);
+    
     return Results.Ok();
 }).RequireAuthorization("Company");;
 
