@@ -41,7 +41,7 @@ app.MapPost("AddDiscount", async (AddDiscount add,IMediator mediator)=>
 //TODO: TESTS
 app.MapGet("GetDiscounts", async (IMediator mediator) => Results.Ok( await mediator.Send(new GetDiscounts())));
 
-//TODO: Removing points from account  and return a code with discount 
+//TODO: TESTS
 app.MapPost("UseDiscounts/", async (UseDiscounts discount, IMediator mediator) =>
 {
     await mediator.Publish(discount);
@@ -51,9 +51,11 @@ app.MapPost("UseDiscounts/", async (UseDiscounts discount, IMediator mediator) =
 
 
 
-//TODO:removing discount
-app.MapDelete("DeleteDiscount/{id:Guid}", () =>
+//TODO: TESTS
+app.MapDelete("DeleteDiscount/{id:Guid}", async (Guid id,IMediator mediator) =>
 {
+    await mediator.Publish(new RemoveDiscount(id));
+    
     return Results.Ok();
 }).RequireAuthorization("Company");
 
