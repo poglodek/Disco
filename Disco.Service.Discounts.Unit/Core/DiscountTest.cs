@@ -8,7 +8,7 @@ namespace Disco.Service.Discounts.Unit.Core;
 
 public class DiscountTest
 {
-    private DateOnly Now => DateOnly.FromDateTime(DateTime.Now);
+    private DateTime Now => DateTime.Now;
     
     [Fact]
     public void CreateDiscount_InvalidId_ThrowException()
@@ -177,7 +177,7 @@ public class DiscountTest
         var ex = Record.Exception(() => obj.SetStartedDate(Now.AddDays(-10)));
 
         ex.ShouldBeNull();
-        obj.StartedDate.Value.ShouldBe(Now.AddDays(-10));
+        obj.StartedDate.Value.Day.ShouldBe(Now.AddDays(-10).Day);
 
     }
     
@@ -202,7 +202,7 @@ public class DiscountTest
         var ex = Record.Exception(() => obj.SetEndingDate(Now.AddDays(10)));
 
         ex.ShouldBeNull();
-        obj.EndingDate.Value.ShouldBe(Now.AddDays(10));
+        obj.EndingDate.Value.Day.ShouldBe(Now.AddDays(10).Day);
 
     }
     

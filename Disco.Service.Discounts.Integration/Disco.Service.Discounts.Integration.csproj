@@ -8,7 +8,9 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="6.0.10" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.4.1" />
+        <PackageReference Include="Shouldly" Version="4.1.0" />
         <PackageReference Include="xunit" Version="2.4.2" />
         <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -21,7 +23,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Tests" />
+      <ProjectReference Include="..\Disco.Service.Discounts.Api\Disco.Service.Discounts.Api.csproj" />
+      <ProjectReference Include="..\Disco.Shared.Test\Disco.Shared.Test.csproj" />
     </ItemGroup>
 
 </Project>

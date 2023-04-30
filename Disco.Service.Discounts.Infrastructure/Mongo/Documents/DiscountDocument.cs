@@ -9,7 +9,7 @@ public class DiscountDocument :  IIdentifiable<Guid>
     public int Points { get; set; }
     public int Percent { get; set; }
     public string Name { get; set; }
-    public DateOnly StartedDate { get; set; }
-    public DateOnly EndingDate { get; set; }
+    public DateTime StartedDate { get; set; }
+    public DateTime EndingDate { get; set; }
     
 }

@@ -20,6 +20,11 @@ public class DiscountRepository : IDiscountRepository
     public async Task<Discount> GetByIdAsync(Guid id)
     {
         var doc = await _mongoRepository.GetAsync(x => x.Id == id);
+        if (doc is null)
+        {
+            return null;
+        }
+        
         return new Discount(doc.Id,doc.CompanyId,doc.Percent,doc.Points,doc.StartedDate,doc.EndingDate,doc.Name);
     }
 

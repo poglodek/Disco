@@ -14,7 +14,7 @@ public class Discount : AggregateRoot
     
     public Name Name { get; private set; }
 
-    public Discount(Guid id,Guid company, int percent, int points ,DateOnly startedDate, DateOnly endingDate, string name)
+    public Discount(Guid id,Guid company, int percent, int points ,DateTime startedDate, DateTime endingDate, string name)
     {
         if (company == Guid.Empty)
         {
@@ -51,7 +51,7 @@ public class Discount : AggregateRoot
 
     }
     
-    public static Discount Create(Guid id,Guid company, int percent, int points ,DateOnly startedDate, DateOnly endingDate, string name)
+    public static Discount Create(Guid id,Guid company, int percent, int points ,DateTime startedDate, DateTime endingDate, string name)
     {
         var point = new Discount(id,company, percent,points,startedDate,endingDate, name);
         
@@ -80,7 +80,7 @@ public class Discount : AggregateRoot
         Percent = new Percent(percent);
     }
 
-    public void SetStartedDate(DateOnly date)
+    public void SetStartedDate(DateTime date)
     {
         if (date > EndingDate.Value)
         {
@@ -90,7 +90,7 @@ public class Discount : AggregateRoot
         StartedDate = new StartedDate(date);
     }
     
-    public void SetEndingDate(DateOnly date)
+    public void SetEndingDate(DateTime date)
     {
         if (StartedDate.Value > date)
         {

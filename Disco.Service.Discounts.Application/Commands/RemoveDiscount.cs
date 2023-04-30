@@ -2,7 +2,7 @@ using MediatR;
 
 namespace Disco.Service.Discounts.Application.Commands;
 
-public class RemoveDiscount : IRequest<Unit>
+public record RemoveDiscount : IRequest<Unit>
 {
     public RemoveDiscount(Guid id)
     {
