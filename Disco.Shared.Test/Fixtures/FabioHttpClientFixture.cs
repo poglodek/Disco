@@ -9,41 +9,41 @@ public class FabioHttpClientFixture : IFabioHttpClient
 {
     public Task<HttpResponseMessage> GetAsync(string url, CancellationToken ct = default)
     {
-        return null;
+        return Task.FromResult<HttpResponseMessage>(default);
     }
 
     public Task<HttpResponseMessage> PostAsync(string url, StringContent content, CancellationToken ct = default)
     {
-        return null;
+        return Task.FromResult<HttpResponseMessage>(default);
     }
 
     public Task<HttpResponseMessage> PatchAsync(string url, StringContent content, CancellationToken ct = default)
     {
-        return null;
+        return Task.FromResult<HttpResponseMessage>(default);
     }
 
     public Task<HttpResponseMessage> PatchAsync(string url, object content, CancellationToken ct = default)
     {
-        return null;
+        return Task.FromResult<HttpResponseMessage>(default);
     }
 
     public Task<HttpResponseMessage> PutAsync(string url, object content, CancellationToken ct = default)
     {
-        return null;
+        return Task.FromResult<HttpResponseMessage>(default);
     }
 
     public Task<HttpResponseMessage> PutAsync(string url, StringContent content, CancellationToken ct = default)
     {
-        return null;
+        return Task.FromResult<HttpResponseMessage>(default);
     }
 
     public Task<HttpResponseMessage> PostAsync(string url, object content, CancellationToken ct = default)
     {
-        return null;
+        return Task.FromResult<HttpResponseMessage>(default);
     }
 
     public Task<HttpResponseMessage> DeleteAsync(string url, CancellationToken ct = default)
     {
-        return null;
+        return Task.FromResult<HttpResponseMessage>(default);
     }
 }
