@@ -4,6 +4,7 @@
         <TargetFramework>net7.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     </PropertyGroup>
 
     <ItemGroup>
@@ -13,6 +14,12 @@
     <ItemGroup>
       <ProjectReference Include="..\Disco.Service.Companies.Infrastructure\Disco.Service.Companies.Infrastructure.csproj" />
       <ProjectReference Include="..\Disco.Service.Discounts.Application\Disco.Service.Discounts.Application.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="..\.dockerignore">
+        <Link>.dockerignore</Link>
+      </Content>
     </ItemGroup>
 
 </Project>

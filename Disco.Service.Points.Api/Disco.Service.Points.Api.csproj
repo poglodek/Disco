@@ -5,7 +5,7 @@
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <RootNamespace>Disco.Points.Api</RootNamespace>
-        <DockerDefaultTargetOS>Windows</DockerDefaultTargetOS>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     </PropertyGroup>
 
     <ItemGroup>
@@ -16,6 +16,12 @@
     <ItemGroup>
       <ProjectReference Include="..\Disco.Service.Points.Application\Disco.Service.Points.Application.csproj" />
       <ProjectReference Include="..\Disco.Service.Points.Infrastructure\Disco.Service.Points.Infrastructure.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="..\.dockerignore">
+        <Link>.dockerignore</Link>
+      </Content>
     </ItemGroup>
 
 </Project>
