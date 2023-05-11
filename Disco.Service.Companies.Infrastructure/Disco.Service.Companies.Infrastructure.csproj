@@ -6,4 +6,20 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <Folder Include="Middleware" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="AutoMapper" Version="12.0.1" />
+      <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
+      <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Disco.Service.Companies.Application\Disco.Service.Companies.Application.csproj" />
+      <ProjectReference Include="..\Disco.Service.Companies.Core\Disco.Service.Companies.Core.csproj" />
+      <ProjectReference Include="..\Disco.Shared\Disco.Shared.csproj" />
+    </ItemGroup>
+
 </Project>

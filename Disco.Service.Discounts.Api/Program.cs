@@ -29,7 +29,6 @@ app.UseInfrastructure();
 
 app.UseAuthorization();
 
-//TODO:TESTS
 app.MapPost("AddDiscount", async (AddDiscount add,IMediator mediator)=>
 {
     await mediator.Send(add);
@@ -38,10 +37,8 @@ app.MapPost("AddDiscount", async (AddDiscount add,IMediator mediator)=>
     
 }).RequireAuthorization(x=>x.RequireRole("Company"));
 
-//TODO: TESTS
 app.MapGet("GetDiscounts", async (IMediator mediator) => Results.Ok( await mediator.Send(new GetDiscounts())));
 
-//TODO: TESTS
 app.MapPost("UseDiscounts/", async (UseDiscounts discount, IMediator mediator) =>
 {
     await mediator.Send(discount);
@@ -49,9 +46,6 @@ app.MapPost("UseDiscounts/", async (UseDiscounts discount, IMediator mediator) =
     return Results.Ok();
 }).RequireAuthorization(x=>x.RequireRole("User","Admin"));
 
-
-
-//TODO: TESTS
 app.MapDelete("DeleteDiscount/{id:Guid}", async (Guid id, IMediator mediator) =>
 {
     await mediator.Send(new RemoveDiscount(id));
